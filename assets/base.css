@@ -3511,6 +3511,6 @@ details-disclosure > details {
     --border-offset: 0px; /* Prevent the border from growing on buttons when this effect is on. */
   }
 }
-.predictive-search-results-groups-wrapper{
+.predictive-search__results-groups-wrapper{
   display: none;
 }
