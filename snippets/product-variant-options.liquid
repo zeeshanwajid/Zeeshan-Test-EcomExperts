@@ -59,10 +59,30 @@
         class="disabled"
       {% endif %}
     >
+    {% comment %}
+    // Old Variant Code
     <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
       {{ value -}}
       <span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>
     </label>
+    {% endcomment %}
+
+{% comment %}
+    // New Swatch Variant Code
+  {% endcomment %}  
+
+
+{% if product.variants[forloop.index0].image != blank and option.name == 'Color' %}
+      <label
+        for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+        style="background-image: url({{ product.variants[forloop.index0].image | img_url: '' }});height:60px;width:60px;background-size: cover;"
+      ></label>
+    {% else %}
+      <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
+        {{ value -}}
+        <span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>
+      </label>
+    {% endif %}
   {%- elsif block.settings.picker_type == 'dropdown' -%}
     <option
       value="{{ value | escape }}"
