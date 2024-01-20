@@ -1,4 +1,4 @@
-{% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+{% comment %}theme-check-disable ImgLazyLoading
 {%- if predictive_search.performed -%}
   {% assign first_column_results_size = predictive_search.resources.queries.size
     | plus: predictive_search.resources.collections.size
@@ -29,9 +29,7 @@
 
 
 
-        {% comment %}
 
-      This is The Predictive Search
       
           {%- for query in predictive_search.resources.queries -%}
             <li
@@ -66,8 +64,6 @@
               </a>
             </li>
           {%- endfor -%}
-
-          {% endcomment %}
         </ul>
       </div>
     {%- endif -%}
@@ -267,3 +263,4 @@
     %}
   </span>
 {%- endif -%}
+{% endcomment %}
