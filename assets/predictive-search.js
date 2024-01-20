@@ -226,11 +226,12 @@ class PredictiveSearch extends SearchForm {
   }
 
   renderSearchResults(resultsMarkup) {
-    this.predictiveSearchResults.innerHTML = resultsMarkup;
-    this.setAttribute('results', true);
+    
+    // this.predictiveSearchResults.innerHTML = resultsMarkup;
+    // this.setAttribute('results', true);
 
-    this.setLiveRegionResults();
-    this.open();
+    // this.setLiveRegionResults();
+    // this.open();
   }
 
   setLiveRegionResults() {
