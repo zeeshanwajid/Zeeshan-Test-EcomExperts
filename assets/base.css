@@ -3512,5 +3512,5 @@ details-disclosure > details {
   }
 }
 .predictive-search__results-groups-wrapper{
-  display: none;
+  display: none !important;
 }
