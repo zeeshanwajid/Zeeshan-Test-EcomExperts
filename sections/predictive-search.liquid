@@ -26,6 +26,13 @@
           role="group"
           aria-labelledby="predictive-search-queries"
         >
+
+
+
+        {% comment %}
+
+      This is The Predictive Search
+      
           {%- for query in predictive_search.resources.queries -%}
             <li
               id="predictive-search-option-query-{{ forloop.index }}"
@@ -59,6 +66,8 @@
               </a>
             </li>
           {%- endfor -%}
+
+          {% endcomment %}
         </ul>
       </div>
     {%- endif -%}
