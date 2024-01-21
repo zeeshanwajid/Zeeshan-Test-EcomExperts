@@ -69,7 +69,6 @@
 {% endcomment %}
   <!-- New Swatch Variant Code -->
 
-<div id="colorsss">
         {% if product.variants[forloop.index0].image != blank and option.name == 'Color' %}
               <label
                 for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
@@ -81,7 +80,6 @@
                 <span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>
               </label>
             {% endif %}
-</div>
     
     <!-- End New Swatch Variant Code -->
   {%- elsif block.settings.picker_type == 'dropdown' -%}
