@@ -141,23 +141,28 @@
               </path></svg>
               </div></div>
               <script>
-             document.addEventListener("DOMContentLoaded", function() {
-  var submitButton = document.querySelector('.product-form__submit-{{ section_id }}');
-  var variantSelect = document.querySelector('#size');
+            document.addEventListener("DOMContentLoaded", function () {
+      // Get the select element
+      var sizeSelect = document.getElementById('size');
 
-  variantSelect.addEventListener('change', function() {
-    if (variantSelect.value === '') {
-      submitButton.setAttribute('disabled', 'disabled');
-    } else {
-      submitButton.removeAttribute('disabled');
-    }
-  });
+      // Get the submit button
+      var submitButton = document.querySelector('.product-form__submit-{{ section_id }}');
 
-  // Initial check on page load
-  if (variantSelect.value === '') {
-    submitButton.setAttribute('disabled', 'disabled');
-  }
-});
+      // Add change event listener to the select element
+      sizeSelect.addEventListener('change', function () {
+        // Check if the selected value is 'unselected'
+        if (sizeSelect.value === 'unselected') {
+          // Disable the submit button
+          submitButton.disabled = true;
+        } else {
+          // Enable the submit button
+          submitButton.disabled = false;
+        }
+      });
+
+      // Remove the 'required' attribute if it was set before
+      sizeSelect.removeAttribute('required');
+    });
 </script>
     {%- endif -%}
 <!-- End of Dropdown Sizes COde -->
