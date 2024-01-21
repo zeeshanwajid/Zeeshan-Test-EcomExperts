@@ -143,21 +143,16 @@
            <script>
     document.addEventListener("DOMContentLoaded", function() {
       var sizeSelect = document.getElementById('size');
-      var addToCartButton = document.querySelector('[type="submit"]'); // Adjust the selector based on your actual "Add to Cart" button
-
-      // Function to update the button state based on the selected size
+      var addToCartButton = document.querySelector('[type="submit"]'); 
+   
       function updateButtonState() {
         if (sizeSelect.value === "") {
           addToCartButton.setAttribute('disabled', 'disabled');
         } else {
           addToCartButton.removeAttribute('disabled');
         }
-      }
-
-      // Add event listener to update the button state on size change
+      } 
       sizeSelect.addEventListener('change', updateButtonState);
-
-      // Initial call to set the initial button state
       updateButtonState();
     });
   </script>
