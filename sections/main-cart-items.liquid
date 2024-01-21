@@ -467,10 +467,12 @@
 {% if allProducts == "no" %}
 
 {% assign isProduct = false %}
+{% assign removeProductId = 0 %}
 
 {% for item in cart.items %}
   {% if item.product.handle == for_specific_product.handle %}
     {% assign isProduct = true %}
+    {% assign removeProductId = item.id %}
   {% endif %}
 {% endfor %}
 
@@ -478,25 +480,19 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-
-  function getQuantityInCart(variantId, cartItems) {
-    for (let i = 0; i < cartItems.length; i++) {
-      if (cartItems[i].id === variantId) {
-        return cartItems[i].quantity;
-      }
-    }
-    return 0;
-  }
-
-  function updateCart(variantId, quantity) {
-    const cartUpdates = { [variantId]: quantity };
-
+  // Function to update the cart based on the product removal
+  function removeProductAndUpdateCart(productId) {
     fetch('/cart/update.js', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ updates: cartUpdates }),
+      body: JSON.stringify({
+        updates: {
+          [productId]: 0, // Set quantity to 0 for removal
+          {{ variant_id }}: 0 // Remove "dark-winter-jacket"
+        }
+      }),
     })
       .then(response => response.json())
       .then(data => {
@@ -507,22 +503,43 @@ document.addEventListener('DOMContentLoaded', function() {
       });
   }
 
-  const variantId = {{ variant_id }};
+  // Function to add "handbag" with custom variant options
+  function addHandbagToCart() {
+    const sizeSelect = document.getElementById('size');
+    const selectedSize = sizeSelect ? sizeSelect.value : ''; // Get the selected size
 
-  const cartItems = {{ cart.items | json }};
-
-  const qtyInTheCart = getQuantityInCart(variantId, cartItems);
-
-  let cartUpdates = {};
-  if (cartItems.length === 1 && qtyInTheCart > 0) {
-    cartUpdates = { [variantId]: 0 };
-  } else if (cartItems.length >= 1 && qtyInTheCart !== 1) {
-    cartUpdates = { [variantId]: 1 };
-  } else {
-    return;
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: {{ for_specific_product.variants.first.id }}, // Replace with the actual variant ID of "handbag"
+        quantity: 1,
+        properties: {
+          Size: selectedSize,
+        }
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        window.location.href = '/cart';
+      })
+      .catch(error => {
+        console.error('Error adding product to cart:', error);
+      });
   }
 
-  updateCart(variantId, cartUpdates[variantId]);
+  // Check if "handbag" is being removed and update the cart accordingly
+  if (removeProductId !== 0) {
+    removeProductAndUpdateCart(removeProductId);
+  }
+
+  // Check if "handbag" is being added and update the cart accordingly
+  const addHandbagButton = document.getElementById('add-handbag-button'); // Replace with the actual button ID
+  if (addHandbagButton) {
+    addHandbagButton.addEventListener('click', addHandbagToCart);
+  }
 });
 </script>
 
