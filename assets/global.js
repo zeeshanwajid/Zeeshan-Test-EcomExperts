@@ -1300,7 +1300,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var jacketItem = {
         id: 7284700282924,
         quantity: 1,
-        properties: { Size: 'medium' } // You can customize this based on your needs
+        properties: { size 'medium' } // You can customize this based on your needs
       };
 
       cartItems.push(jacketItem);
