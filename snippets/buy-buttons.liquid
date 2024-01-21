@@ -43,12 +43,7 @@
         </svg>
         <span class="product-form__error-message"></span>
       </div>
-{%- if product.title == "Soft Winter Jacket" -%}
-        <p>This product is available only in a bundle.</p>
-        <button disabled>Add to Cart</button>
-    {%- if show_dynamic_checkout -%}
-          {{ form | payment_button }}
-        {%- endif -%}
+
       {%- else -%}
       {%- form 'product',
         product,
@@ -104,7 +99,10 @@
           {%- endif -%}
         </div>
       {%- endform -%}
-  {%- endif -%}
+
+
+
+            
     </product-form>
   {%- else -%}
     <div class="product-form">
