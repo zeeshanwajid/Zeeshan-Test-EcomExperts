@@ -44,10 +44,6 @@
         <span class="product-form__error-message"></span>
       </div>
 
-    {%- if show_dynamic_checkout -%}
-          {{ form | payment_button }}
-        {%- endif -%}
-      {%- else -%}
       {%- form 'product',
         product,
         id: product_form_id,
