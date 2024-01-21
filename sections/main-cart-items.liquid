@@ -470,118 +470,98 @@
 
 {% for item in cart.items %}
   {% if item.product.handle == for_specific_product.handle %}
-    {% assign isProduct = true %}
+  	{% assign isProduct = true %}
   {% endif %}
 {% endfor %}
 
 {% if isProduct == true %}
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
+<script>  
+  
+(function($) {   
+    
+    let cartItems = {{ cart.items | json }},
+        qtyInTheCart = 0,        
+        cartUpdates = {};
 
-  function getQuantityInCart(variantId, cartItems) {
-    for (let i = 0; i < cartItems.length; i++) {
-      if (cartItems[i].id === variantId) {
-        return cartItems[i].quantity;
-      }
+    for (let i=0; i<cartItems.length; i++) {
+      if ( cartItems[i].id === {{ variant_id }} ) {
+        qtyInTheCart = cartItems[i].quantity;
+        break;
+      }      
+    }    
+
+    if ((cartItems.length === 1) && (qtyInTheCart > 0)) {
+      cartUpdates = { {{ variant_id }}: 0 }
+      
     }
-    return 0;
-  }
-
-  function updateCart(variantId, quantity) {
-    const cartUpdates = { [variantId]: quantity };
-
-    fetch('/cart/update.js', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ updates: cartUpdates }),
-    })
-      .then(response => response.json())
-      .then(data => {
+    else if (( cartItems.length >= 1) && (qtyInTheCart !== 1 )) {
+      cartUpdates = { {{ variant_id }}: 1 }
+    }
+    else {
+      return;
+    }   
+    
+    const params = {        
+      type: 'POST',
+      url: '/cart/update.js',
+      data: { updates: cartUpdates },
+      dataType: 'json',
+      success: function(stuff) { 
         window.location.href = '/cart';
-      })
-      .catch(error => {
-        console.error('Error updating cart:', error);
-      });
-  }
+      }
+    };  
 
-  const variantId = {{ variant_id }};
+    $.ajax(params);
 
-  const cartItems = {{ cart.items | json }};
-
-  const qtyInTheCart = getQuantityInCart(variantId, cartItems);
-
-  let cartUpdates = {};
-  if (cartItems.length === 1 && qtyInTheCart > 0) {
-    cartUpdates = { [variantId]: 0 };
-  } else if (cartItems.length >= 1 && qtyInTheCart !== 1) {
-    cartUpdates = { [variantId]: 1 };
-  } else {
-    return;
-  }
-
-  updateCart(variantId, cartUpdates[variantId]);
-});
-
-
+})(jQuery);
+  
 </script>
 
 {% endif %}
 
 {% else %}
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
+<script>  
+  
+(function($) {   
+    
+    let cartItems = {{ cart.items | json }},
+        qtyInTheCart = 0,        
+        cartUpdates = {};
 
-  function getQuantityInCart(variantId, cartItems) {
-    for (let i = 0; i < cartItems.length; i++) {
-      if (cartItems[i].id === variantId) {
-        return cartItems[i].quantity;
-      }
+    for (let i=0; i<cartItems.length; i++) {
+      if ( cartItems[i].id === {{ variant_id }} ) {
+        qtyInTheCart = cartItems[i].quantity;
+        break;
+      }      
+    }    
+
+    if ((cartItems.length === 1) && (qtyInTheCart > 0)) {
+      cartUpdates = { {{ variant_id }}: 0 }
+      
     }
-    return 0;
-  }
-
-  function updateCart(variantId, quantity) {
-    const cartUpdates = { [variantId]: quantity };
-
-    fetch('/cart/update.js', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ updates: cartUpdates }),
-    })
-      .then(response => response.json())
-      .then(data => {
+    else if (( cartItems.length >= 1) && (qtyInTheCart !== 1 )) {
+      cartUpdates = { {{ variant_id }}: 1 }
+    }
+    else {
+      return;
+    }      
+    
+    const params = {        
+      type: 'POST',
+      url: '/cart/update.js',
+      data: { updates: cartUpdates },
+      dataType: 'json',
+      success: function(stuff) { 
         window.location.href = '/cart';
-      })
-      .catch(error => {
-        console.error('Error updating cart:', error);
-      });
-  }
+      }
+    };  
 
-  const variantId = {{ variant_id }};
+    $.ajax(params);
 
-  const cartItems = {{ cart.items | json }};
-
-  const qtyInTheCart = getQuantityInCart(variantId, cartItems);
-
-
-  let cartUpdates = {};
-  if (cartItems.length === 1 && qtyInTheCart > 0) {
-    cartUpdates = { [variantId]: 0 };
-  } else if (cartItems.length >= 1 && qtyInTheCart !== 1) {
-    cartUpdates = { [variantId]: 1 };
-  } else {
-    return;
-  }
-
-
-  updateCart(variantId, cartUpdates[variantId]);
-});
+})(jQuery);
+  
 </script>
 
 {% endif %}
