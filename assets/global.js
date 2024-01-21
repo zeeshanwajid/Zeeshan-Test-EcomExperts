@@ -1270,7 +1270,7 @@ customElements.define('product-recommendations', ProductRecommendations);
 
 
 
-
+console.log('Script is running!');
 document.addEventListener('DOMContentLoaded', function() {
   // Function to check if the Handbag (Black, Medium) is added to the cart
   function isHandbagInCart() {
