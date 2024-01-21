@@ -141,11 +141,11 @@
               </path></svg>
               </div></div>
            <script>
-       document.addEventListener("DOMContentLoaded", ()=>{document.querySelector("form[novalidate]").removeAttribute("novalidate")})
+      
     document.addEventListener("DOMContentLoaded", function() {
       var sizeSelect = document.getElementById('size');
        var colorSelect = document.getElementById('colorsss');
-      var addToCartButton = document.querySelector('[type="submit"]'); 
+      var addToCartButton = document.querySelector('form[novalidate]'); 
    
       function updateButtonState() {
         if (sizeSelect.value === "") {
