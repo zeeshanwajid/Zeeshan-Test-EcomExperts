@@ -461,10 +461,14 @@
 {% if allProducts == "no" %}
 
 {% assign isProduct = false %}
+{% assign removeProduct = false %}
 
 {% for item in cart.items %}
   {% if item.product.handle == for_specific_product.handle %}
     {% assign isProduct = true %}
+    {% if item.variant.title == "Black / Medium" %}
+      {% assign removeProduct = true %}
+    {% endif %}
   {% endif %}
 {% endfor %}
 
@@ -475,7 +479,8 @@
 document.addEventListener("DOMContentLoaded", function () {
   let cartItems = {{ cart.items | json }},
     qtyInTheCart = 0,
-    cartUpdates = {};
+    cartUpdates = {},
+    shouldRemove = false;
 
   for (let i = 0; i < cartItems.length; i++) {
     if (cartItems[i].id === {{ variant_id }}) {
@@ -486,6 +491,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (cartItems.length === 1 && qtyInTheCart > 0) {
     cartUpdates = { {{ variant_id }}: 0 };
+    shouldRemove = true;
   } else if (cartItems.length >= 1 && qtyInTheCart !== 1) {
     cartUpdates = { {{ variant_id }}: 1 };
   } else {
@@ -497,11 +503,25 @@ document.addEventListener("DOMContentLoaded", function () {
   xhr.setRequestHeader("Content-Type", "application/json");
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
+      if (shouldRemove) {
+        // If Leather Bag (black, medium) is removed, remove soft winter Jacket as well
+        removeSoftWinterJacket();
+      }
       window.location.href = '/cart';
     }
   };
   xhr.send(JSON.stringify({ updates: cartUpdates }));
 });
+
+function removeSoftWinterJacket() {
+  // Find and remove soft winter Jacket from the cart
+  for (let i = 0; i < cartItems.length; i++) {
+    if (cartItems[i].id === {{ product_to_add_auto.variants.first.id }}) {
+      cartItems.splice(i, 1);
+      break;
+    }
+  }
+}
 
 </script>
 
@@ -547,6 +567,7 @@ document.addEventListener("DOMContentLoaded", function () {
 {% endif %}
 
 {% endunless %}
+
                 
 </cart-items>
 
