@@ -141,20 +141,26 @@
               </path></svg>
               </div></div>
            <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      var sizeSelect = document.getElementById('size');
-      var addToCartButton = document.querySelector('[type="submit"]'); 
+document.addEventListener("DOMContentLoaded", function() {
+    var sizeSelect = document.getElementById('size');
+    var colorSelect = document.getElementById('color'); 
+    var addToCartButton = document.querySelector('[type="submit"]');
+
+    function updateButtonState() {
+      // Check if both size and color are selected
+      if (sizeSelect.value === "" || colorSelect.value === "") {
+        addToCartButton.setAttribute('disabled', 'disabled');
+      } else {
+        addToCartButton.removeAttribute('disabled');
+      }
+    }
+
+    sizeSelect.addEventListener('change', updateButtonState);
+    colorSelect.addEventListener('change', updateButtonState);
+
    
-      function updateButtonState() {
-        if (sizeSelect.value === "") {
-          addToCartButton.setAttribute('disabled', 'disabled');
-        } else {
-          addToCartButton.removeAttribute('disabled');
-        }
-      } 
-      sizeSelect.addEventListener('change', updateButtonState);
-      updateButtonState();
-    });
+    updateButtonState();
+  });
   </script>
     {%- endif -%}
 <!-- End of Dropdown Sizes COde -->
