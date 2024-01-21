@@ -159,6 +159,56 @@
       updateButtonState();
     });
   </script>
+      <script>
+  document.addEventListener('DOMContentLoaded', function () {
+  
+    function addSoftWinterJacketToCart() {
+      var cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+
+      var jacketInCart = cartItems.some(item => item.title === 'Soft Winter Jacket');
+
+      if (!jacketInCart) {
+        cartItems.push({
+          title: 'Soft Winter Jacket',
+          quantity: 1
+        });
+        localStorage.setItem('cart', JSON.stringify(cartItems));
+      }
+    }
+
+    function removeSoftWinterJacketFromCart() {
+      var cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+
+      var updatedCart = cartItems.filter(item => item.title !== 'Soft Winter Jacket');
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+    }
+
+    sizeSelect.addEventListener('change', function () {
+
+      if (sizeSelect.value.toLowerCase() === 'medium') {
+
+        addSoftWinterJacketToCart();
+      } else {
+  
+        removeSoftWinterJacketFromCart();
+      }
+    });
+
+    document.addEventListener('cart:update', function () {
+
+      if (sizeSelect.value.toLowerCase() === 'medium') {
+
+        addSoftWinterJacketToCart();
+      } else {
+     
+        removeSoftWinterJacketFromCart();
+      }
+    });
+
+    document.dispatchEvent(new Event('cart:update'));
+  });
+</script>
+
     {%- endif -%}
 <!-- End of Dropdown Sizes COde -->
 
