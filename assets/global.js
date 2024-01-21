@@ -1264,3 +1264,66 @@ class ProductRecommendations extends HTMLElement {
 }
 
 customElements.define('product-recommendations', ProductRecommendations);
+
+
+
+
+
+
+
+// Get the cart object
+var cart = JSON.parse(localStorage.getItem('cart'));
+
+// Check if Leather Bag is in the cart
+var leatherBagInCart = cart.items.some(function (item) {
+  return item.title === 'Handbag' && item.variant_title === 'Black / Medium';
+});
+
+// If Leather Bag is in the cart, add Soft Winter Jacket
+if (leatherBagInCart) {
+  // Make an AJAX request to add Soft Winter Jacket to the cart
+  $.ajax({
+    type: 'POST',
+    url: '/cart/add.js',
+    data: {
+      quantity: 1,
+      id: 7284700282924, // Replace with the ID of the Soft Winter Jacket variant
+      properties: {
+        'Added by bundle': 'Handbag (Black / Medium)'
+      }
+    },
+    dataType: 'json',
+    success: function () {
+      // Redirect to the cart page or perform other actions
+      console.log('Soft Winter Jacket added to the cart');
+    }
+  });
+}
+
+// Listen for changes to the cart
+$(document).on('cart.updated', function (event, cart) {
+  // Check if Leather Bag is in the cart
+  var leatherBagInCart = cart.items.some(function (item) {
+    return item.title === 'Handbag' && item.variant_title === 'Black / Medium';
+  });
+
+  // If Leather Bag is not in the cart, remove Soft Winter Jacket
+  if (!leatherBagInCart) {
+    // Make an AJAX request to remove Soft Winter Jacket from the cart
+    $.ajax({
+      type: 'POST',
+      url: '/cart/update.js',
+      data: {
+        updates: {
+          7284700282924: 0 // Replace with the ID of the Soft Winter Jacket variant
+        }
+      },
+      dataType: 'json',
+      success: function () {
+        // Redirect to the cart page or perform other actions
+        console.log('Soft Winter Jacket removed from the cart');
+      }
+    });
+  }
+});
+
