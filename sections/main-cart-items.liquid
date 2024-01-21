@@ -450,124 +450,161 @@
     </form>
   </div>
 {% assign allProducts = "no" %}
-
 {% assign for_specific_product = all_products['handbag'] %}
 {% assign product_to_add_auto = all_products['dark-winter-jacket'] %}
 
 {% unless cart.item_count == 0 or product_to_add_auto.empty? or product_to_add_auto.variants.first.available == false %}
-
 {% assign variant_id = product_to_add_auto.variants.first.id %}
 
 {% if allProducts == "no" %}
-
 {% assign isProduct = false %}
-{% assign removeProduct = false %}
-
 {% for item in cart.items %}
   {% if item.product.handle == for_specific_product.handle %}
     {% assign isProduct = true %}
-    {% if item.variant.title == "Black / Medium" %}
-      {% assign removeProduct = true %}
-    {% endif %}
   {% endif %}
 {% endfor %}
 
 {% if isProduct == true %}
-
 <script>
+document.addEventListener('DOMContentLoaded', function() {
 
-document.addEventListener("DOMContentLoaded", function () {
-  let cartItems = {{ cart.items | json }},
-    qtyInTheCart = 0,
-    cartUpdates = {},
-    shouldRemove = false;
-
-  for (let i = 0; i < cartItems.length; i++) {
-    if (cartItems[i].id === {{ variant_id }}) {
-      qtyInTheCart = cartItems[i].quantity;
-      break;
+  function getQuantityInCart(variantId, cartItems) {
+    for (let i = 0; i < cartItems.length; i++) {
+      if (cartItems[i].id === variantId) {
+        return cartItems[i].quantity;
+      }
     }
+    return 0;
   }
 
+  function updateCart(variantId, quantity) {
+    const cartUpdates = { [variantId]: quantity };
+
+    fetch('/cart/update.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ updates: cartUpdates }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        window.location.href = '/cart';
+      })
+      .catch(error => {
+        console.error('Error updating cart:', error);
+      });
+  }
+
+  const variantId = {{ variant_id }};
+
+  const cartItems = {{ cart.items | json }};
+
+  const qtyInTheCart = getQuantityInCart(variantId, cartItems);
+
+  let cartUpdates = {};
   if (cartItems.length === 1 && qtyInTheCart > 0) {
-    cartUpdates = { {{ variant_id }}: 0 };
-    shouldRemove = true;
+    cartUpdates = { [variantId]: 0 };
   } else if (cartItems.length >= 1 && qtyInTheCart !== 1) {
-    cartUpdates = { {{ variant_id }}: 1 };
+    cartUpdates = { [variantId]: 1 };
   } else {
     return;
   }
 
-  const xhr = new XMLHttpRequest();
-  xhr.open("POST", "/cart/update.js", true);
-  xhr.setRequestHeader("Content-Type", "application/json");
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      if (shouldRemove) {
-        // If Leather Bag (black, medium) is removed, remove soft winter Jacket as well
-        removeSoftWinterJacket();
-      }
-      window.location.href = '/cart';
-    }
-  };
-  xhr.send(JSON.stringify({ updates: cartUpdates }));
+  updateCart(variantId, cartUpdates[variantId]);
 });
 
-function removeSoftWinterJacket() {
-  // Find and remove soft winter Jacket from the cart
-  for (let i = 0; i < cartItems.length; i++) {
-    if (cartItems[i].id === {{ product_to_add_auto.variants.first.id }}) {
-      cartItems.splice(i, 1);
-      break;
-    }
-  }
+function removeItem() {
+  let variantId = document.querySelector('#YOUR_CART_BUTTON_CLASS_NAME').getAttribute('data-variant-id');
+  fetch('/cart/change.js', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ id: parseFloat(variantId), quantity: 0 }),
+  })
+    .then(response => response.json())
+    .then(data => {
+      document.querySelector('#YOUR_CART_BUTTON_CLASS_NAME').textContent = 'Add to cart';
+      document.querySelector('#YOUR_CART_BUTTON_CLASS_NAME').removeAttribute('data-variant-id');
+    })
+    .catch(error => {
+      console.error('Error removing item from cart:', error);
+    });
 }
 
-</script>
-
 {% endif %}
-
 {% else %}
-
 <script>
+document.addEventListener('DOMContentLoaded', function() {
 
-document.addEventListener("DOMContentLoaded", function () {
-  let cartItems = {{ cart.items | json }},
-    qtyInTheCart = 0,
-    cartUpdates = {};
-
-  for (let i = 0; i < cartItems.length; i++) {
-    if (cartItems[i].id === {{ variant_id }}) {
-      qtyInTheCart = cartItems[i].quantity;
-      break;
+  function getQuantityInCart(variantId, cartItems) {
+    for (let i = 0; i < cartItems.length; i++) {
+      if (cartItems[i].id === variantId) {
+        return cartItems[i].quantity;
+      }
     }
+    return 0;
   }
 
+  function updateCart(variantId, quantity) {
+    const cartUpdates = { [variantId]: quantity };
+
+    fetch('/cart/update.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ updates: cartUpdates }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        window.location.href = '/cart';
+      })
+      .catch(error => {
+        console.error('Error updating cart:', error);
+      });
+  }
+
+  const variantId = {{ variant_id }};
+
+  const cartItems = {{ cart.items | json }};
+
+  const qtyInTheCart = getQuantityInCart(variantId, cartItems);
+
+  let cartUpdates = {};
   if (cartItems.length === 1 && qtyInTheCart > 0) {
-    cartUpdates = { {{ variant_id }}: 0 };
+    cartUpdates = { [variantId]: 0 };
   } else if (cartItems.length >= 1 && qtyInTheCart !== 1) {
-    cartUpdates = { {{ variant_id }}: 1 };
+    cartUpdates = { [variantId]: 1 };
   } else {
     return;
   }
 
-  const xhr = new XMLHttpRequest();
-  xhr.open("POST", "/cart/update.js", true);
-  xhr.setRequestHeader("Content-Type", "application/json");
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      window.location.href = '/cart';
-    }
-  };
-  xhr.send(JSON.stringify({ updates: cartUpdates }));
+  updateCart(variantId, cartUpdates[variantId]);
 });
 
-</script>
+function removeItem() {
+  let variantId = document.querySelector('#YOUR_CART_BUTTON_CLASS_NAME').getAttribute('data-variant-id');
+  fetch('/cart/change.js', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ id: parseFloat(variantId), quantity: 0 }),
+  })
+    .then(response => response.json())
+    .then(data => {
+      document.querySelector('#YOUR_CART_BUTTON_CLASS_NAME').textContent = 'Add to cart';
+      document.querySelector('#YOUR_CART_BUTTON_CLASS_NAME').removeAttribute('data-variant-id');
+    })
+    .catch(error => {
+      console.error('Error removing item from cart:', error);
+    });
+}
 
 {% endif %}
-
 {% endunless %}
-
                 
 </cart-items>
 
