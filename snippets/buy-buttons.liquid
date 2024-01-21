@@ -81,7 +81,9 @@
             name="add"
             class="product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
             {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
+              {% if product.title == "Soft Winter Jacket" %}
               disabled
+                {% endif %}
             {% endif %}
           >
             <span>
