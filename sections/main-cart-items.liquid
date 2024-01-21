@@ -462,15 +462,17 @@
 
 {% unless cart.item_count == 0 or productToAddAuto.empty? or productToAddAuto.variants.first.available == false %}
 
-{% assign variantId = productToAddAuto.variants.first.id %}
+{% assign variantId = 7284700348460 %}
 
-{% if forSpecificProduct.variants.size == 2 and forSpecificProduct.variants[0].option1 == "Black" and forSpecificProduct.variants[1].option1 == "Medium" %}
-  {% assign isProduct = false %}
-  {% for item in cart.items %}
-    {% if item.product.handle == forSpecificProduct.handle %}
-      {% assign isProduct = true %}
-    {% endif %}
-  {% endfor %}
+{% if allProducts == "no" %}
+
+{% assign isProduct = false %}
+
+{% for item in cart.items %}
+  {% if item.product.handle == forSpecificProduct.handle %}
+    {% assign isProduct = true %}
+  {% endif %}
+{% endfor %}
 
 {% if isProduct == true %}
   <script>
