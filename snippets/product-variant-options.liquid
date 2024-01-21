@@ -48,7 +48,7 @@
   {%- if block.settings.picker_type == 'button' -%}
     <input
       type="radio"
-      id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+      id="color--{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
       name="{{ option.name }}"
       value="{{ value | escape }}"
       form="{{ product_form_id }}"
@@ -59,17 +59,14 @@
         class="disabled"
       {% endif %}
     >
-    {% comment %}
-    // Old Variant Code
+
+    <!-- // Old Variant Code
     <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
       {{ value -}}
       <span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>
-    </label>
-    {% endcomment %}
+    </label> -->
 
-{% comment %}
-    // New Swatch Variant Code
-  {% endcomment %}  
+  <!-- New Swatch Variant Code -->
 
 
 {% if product.variants[forloop.index0].image != blank and option.name == 'Color' %}
@@ -83,7 +80,7 @@
         <span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>
       </label>
     {% endif %}
-    
+    <!-- End New Swatch Variant Code -->
   {%- elsif block.settings.picker_type == 'dropdown' -%}
     <option
       value="{{ value | escape }}"
