@@ -25,8 +25,8 @@
       {% if product.tags contains 'bundles' %}
       <p class="cart-attribute__field">
   <label>Select Size</label><br>
-  <select required class="required" id="your-name" name="attributes[Select Size:]">
-    <option value=""{% if cart.attributes[""] == "unselected" %} selected{% endif %}>unselected</option>
+  <select required class="required" id="select-size" name="attributes[Select Size:]">
+    <option value=""{% if cart.attributes[""] == "" %} selected{% endif %}>unselected</option>
     <option value="Small"{% if cart.attributes["Select Size:"] == "Small" %} selected{% endif %}>Small</option>
     <option value="Medium"{% if cart.attributes["Select Size:"] == "Medium" %} selected{% endif %}>Medium</option>
     <option value="Large"{% if cart.attributes["Select Size:"] == "Large" %} selected{% endif %}>Large</option>
