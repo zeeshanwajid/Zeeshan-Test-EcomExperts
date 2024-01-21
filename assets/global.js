@@ -1271,56 +1271,78 @@ customElements.define('product-recommendations', ProductRecommendations);
 
 
 
-function addToCartWithBundle() {
-  // Make a fetch request to add "Soft Winter Jacket" to the cart
-  fetch('/cart/add.js', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      items: [
-        {
-          id: 7284700282924, // ID of the "Soft Winter Jacket" product
-          quantity: 1,
-          properties: {
-            additional_price: '0.01' // Additional price for the bundle
-          }
-        }
-      ]
-    })
-  })
-  .then(response => {
-    // Handle the response as per your requirement
-    console.log('Product added to the cart with bundle');
-  })
-  .catch(error => {
-    // Handle any errors during the request
-    console.error('Error adding product to the cart', error);
-  });
-}
+document.addEventListener('DOMContentLoaded', function() {
+  // Function to check if the Leather Bag (Black, Medium) is added to the cart
+  function isLeatherBagInCart() {
+    var cartItems = JSON.parse(localStorage.getItem('cart'));
 
-// Remove "Soft Winter Jacket" from the cart when "Leather Bag" is removed
-function removeFromCartWithBundle() {
-  // Make a fetch request to remove "Soft Winter Jacket" from the cart
-  fetch('/cart/update.js', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      updates: {
-        7284700282924: 0 // ID of the "Soft Winter Jacket" product with quantity 0 for removal
+    if (!cartItems) {
+      return false;
+    }
+
+    for (var i = 0; i < cartItems.length; i++) {
+      var item = cartItems[i];
+      if (item.title === 'Handbag' && item.properties && item.properties.Size === 'medium') {
+        return true;
       }
-    })
-  })
-  .then(response => {
-    // Handle the response as per your requirement
-    console.log('Product removed from the cart with bundle');
-  })
-  .catch(error => {
-    // Handle any errors during the request
-    console.error('Error removing product from the cart', error);
-  });
-}
+    }
 
+    return false;
+  }
+
+  // Function to add Soft Winter Jacket to the cart
+  function addSoftWinterJacketToCart() {
+    var cartItems = JSON.parse(localStorage.getItem('cart'));
+
+    // Check if Leather Bag (Black, Medium) is in the cart
+    if (isLeatherBagInCart()) {
+      // Add Soft Winter Jacket with an additional price of 0.01$
+      var jacketItem = {
+        title: 'Soft Winter Jacket',
+        price: 0.01,
+        quantity: 1,
+        properties: { Size: 'medium' } // You can customize this based on your needs
+      };
+
+      cartItems.push(jacketItem);
+
+      // Update the cart in localStorage
+      localStorage.setItem('cart', JSON.stringify(cartItems));
+    }
+  }
+
+  // Function to remove Soft Winter Jacket from the cart
+  function removeSoftWinterJacketFromCart() {
+    var cartItems = JSON.parse(localStorage.getItem('cart'));
+
+    // Filter out Soft Winter Jacket from the cart
+    cartItems = cartItems.filter(function(item) {
+      return item.title !== 'Soft Winter Jacket';
+    });
+
+    // Update the cart in localStorage
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+  }
+
+  // Hook into the Shopify product form submission
+  var productForm = document.getElementById('product-form');
+
+  if (productForm) {
+    productForm.addEventListener('submit', function() {
+      // Check if Leather Bag (Black, Medium) is in the cart and add Soft Winter Jacket
+      addSoftWinterJacketToCart();
+    });
+  }
+
+  // Hook into the cart removal process
+  var cartPage = document.getElementById('cart-page'); // Replace 'cart-page' with your actual cart page identifier
+
+  if (cartPage) {
+    cartPage.addEventListener('click', function(event) {
+      // Check if Leather Bag (Black, Medium) is removed from the cart and remove Soft Winter Jacket
+      if (event.target.classList.contains('remove-handbag')) {
+        removeSoftWinterJacketFromCart();
+      }
+    });
+  }
+});
