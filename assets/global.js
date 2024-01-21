@@ -1345,3 +1345,68 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
+document.addEventListener('DOMContentLoaded', function() {
+  // Define fetchConfig for making fetch request
+  var fetchConfig = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      // Add any other headers if needed
+    },
+    // Add other fetch configuration options if needed
+  };
+
+  // Function to add Soft Leather Jacket to the cart
+  function addSoftLeatherJacketToCart() {
+    var cartItems = JSON.parse(localStorage.getItem('cart'));
+
+    // Check if Handbag (Black, Medium) is in the cart
+    if (isHandbagInCart()) {
+      // Add Soft Leather Jacket to the cart
+      fetch('/cart/add.js', fetchConfig)
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response as needed
+          console.log('Product added to cart:', data);
+        })
+        .catch(error => {
+          console.error('Error adding product to cart:', error);
+        });
+    }
+  }
+
+  // Function to check if the Handbag (Black, Medium) is added to the cart
+  function isHandbagInCart() {
+    var cartItems = JSON.parse(localStorage.getItem('cart'));
+
+    if (!cartItems) {
+      return false;
+    }
+
+    for (var i = 0; i < cartItems.length; i++) {
+      var item = cartItems[i];
+      if (item.id === 7284700348460 && item.properties && item.properties.Size === 'medium') {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  // ... (other functions as needed)
+
+  // Hook into the Shopify product form submission
+  var productForm = document.getElementById('product-form');
+
+  if (productForm) {
+    productForm.addEventListener('submit', function(event) {
+      // Prevent the default form submission
+      event.preventDefault();
+
+      // Check if Handbag (Black, Medium) is in the cart and add Soft Leather Jacket
+      addSoftLeatherJacketToCart();
+    });
+  }
+
+  // ... (other event listeners or hooks as needed)
+});
