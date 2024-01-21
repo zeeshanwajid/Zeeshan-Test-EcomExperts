@@ -120,16 +120,22 @@
               <div {{ block.shopify_attributes }}>
                 {%- assign product_form_installment_id = 'product-form-installment-' | append: section.id -%}
                 {%- form 'product', product, id: product_form_installment_id, class: 'installment caption-large' -%}
-                  {% if product.tags contains 'bundles' %}
- <p class="cart-attribute__field">
-  <label>Select Size:</label><br>
-  <select required class="required" id="select-size" name="attributes[Select Size]">
-    <option value="unselected"{% if cart.attributes["Select Size"] == "unselected" %} selected{% endif %}>unselected</option>
-    <option value="Small"{% if cart.attributes["Select Size"] == "Small" %} selected{% endif %}>Small</option>
-    <option value="Medium"{% if cart.attributes["Select Size"] == "Medium" %} selected{% endif %}>Medium</option>
-    <option value="Large"{% if cart.attributes["Select Size"] == "Large" %} selected{% endif %}>Large</option>
-  </select>
-</p> {%- endif -%}
+
+   <!-- Dropdown Sizes for handbag -->
+              {% if product.tags contains 'bundles' %}
+         
+                <p class="cart-attribute__field">
+                <label>Select Size:</label><br>
+                <select required class="required" id="select-size" name="attributes[Select Size]">
+                  <option value="unselected"{% if cart.attributes["Select Size"] == "unselected" %} selected{% endif %}>unselected</option>
+                  <option value="Small"{% if cart.attributes["Select Size"] == "Small" %} selected{% endif %}>Small</option>
+                  <option value="Medium"{% if cart.attributes["Select Size"] == "Medium" %} selected{% endif %}>Medium</option>
+                  <option value="Large"{% if cart.attributes["Select Size"] == "Large" %} selected{% endif %}>Large</option>
+                </select>
+              </p> 
+            {%- endif -%}
+<!-- End of Dropdown Sizes COde -->
+                  
                   <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
                   {{ form | payment_terms }}
                 {%- endform -%}
