@@ -123,27 +123,47 @@
 
                   
         <!-- Dropdown Sizes for handbag -->
-    {% if product.tags contains 'bundles' %}
-         
-              <div class="product-form__input product-form__input--dropdown">
-              <label class="form__label-dropdown">Size</label>
-              <div class="select">
-              <select class="select__select" id="size" name="properties[Size]" form="{{ 'product-form-' | append: section.id }}" required>
-                  <option value="" hidden selected>unselected</option>
-                      <option value="small">small</option>
-                      <option value=" medium"> medium</option>
-                      <option value="large">large</option>
-              </select>
-              <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
-              <path fill-rule="evenodd" clip-rule="evenodd" 
-              d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" 
-              fill="currentColor">
-              </path></svg>
-              </div></div>
-              <script>
-              document.addEventListener("DOMContentLoaded", ()=>{document.querySelector("form[novalidate]").removeAttribute("novalidate")})
-              </script>
-    {%- endif -%}
+  {% if product.tags contains 'bundles' %}
+  <div class="product-form__input product-form__input--dropdown">
+    <label class="form__label-dropdown">Size</label>
+    <div class="select">
+      <select class="select__select" id="size" name="properties[Size]" form="{{ 'product-form-' | append: section.id }}" required>
+        <option value="" hidden selected>unselected</option>
+        <option value="small">small</option>
+        <option value="medium">medium</option>
+        <option value="large">large</option>
+      </select>
+      <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor"></path>
+      </svg>
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Get the select element
+      var sizeSelect = document.getElementById('size');
+
+      // Get the submit button
+      var submitButton = document.querySelector('#ProductSubmitButton-{{ section_id }}');
+
+      // Add change event listener to the select element
+      sizeSelect.addEventListener('change', function () {
+        // Check if the selected value is 'unselected'
+        if (sizeSelect.value === 'unselected') {
+          // Disable the submit button
+          submitButton.disabled = true;
+        } else {
+          // Enable the submit button
+          submitButton.disabled = false;
+        }
+      });
+
+      // Remove the 'required' attribute if it was set before
+      sizeSelect.removeAttribute('required');
+    });
+  </script>
+{% endif %}
+
 <!-- End of Dropdown Sizes COde -->
 
 
