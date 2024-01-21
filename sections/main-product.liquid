@@ -143,20 +143,26 @@
            <script>
       
     document.addEventListener("DOMContentLoaded", function() {
-      var sizeSelect = document.getElementById('size');
-       var colorSelect = document.getElementById('colorsss');
-      var addToCartButton = document.querySelector('[type="submit"]'); 
-   
-      function updateButtonState() {
-        if (sizeSelect.value === "") {
-          addToCartButton.setAttribute('disabled', 'disabled');
-        } else {
-          addToCartButton.removeAttribute('disabled');
-        }
-      } 
-      sizeSelect.addEventListener('change', updateButtonState);
-      colorSelect.addEventListener('change', updateButtonState);
-      updateButtonState();
+    var sizeSelect = document.getElementById('size');
+    var colorSelect = document.getElementById('colorsss');
+    var addToCartButton = document.querySelector('[type="submit"]');
+
+    function updateButtonState() {
+      if (sizeSelect.value === "" || colorSelect.value === "") {
+        addToCartButton.setAttribute('disabled', 'disabled');
+      } else {
+        addToCartButton.removeAttribute('disabled');
+      }
+    }
+
+    sizeSelect.addEventListener('change', updateButtonState);
+    colorSelect.addEventListener('change', updateButtonState);
+
+    var observer = new MutationObserver(updateButtonState);
+    observer.observe(document.body, { attributes: true, childList: true, subtree: true });
+
+    updateButtonState();
+  });
     });
   </script>
     {%- endif -%}
