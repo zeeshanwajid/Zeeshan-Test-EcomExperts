@@ -56,7 +56,9 @@
           name="id"
           value="{{ product.selected_or_first_available_variant.id }}"
           {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
-            disabled
+         {% if product.title == "Soft Winter Jacket" %}
+              disabled
+                {% endif %}
           {% endif %}
           class="product-variant-id"
         >
@@ -108,7 +110,9 @@
           type="submit"
           name="add"
           class="product-form__submit button button--full-width button--primary"
-          disabled
+          {% if product.title == "Soft Winter Jacket" %}
+              disabled
+                {% endif %}
         >
           {{ 'products.product.sold_out' | t }}
         </button>
