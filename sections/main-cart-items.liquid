@@ -524,6 +524,61 @@ document.addEventListener('DOMContentLoaded', function() {
 
   updateCart(variantId, cartUpdates[variantId]);
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function removeJacketOnHandbagRemoval() {
+  let handbagProductId = 7284700348460; 
+  let jacketProductId = 7284700282924; 
+  let isHandbagInCart = false;
+  for (let i = 0; i < window.Shopify.cart.items.length; i++) {
+    if (window.Shopify.cart.items[i].product_id === handbagProductId) {
+      isHandbagInCart = true;
+      break;
+    }
+  }
+
+  // If "handbag" is not in the cart, remove "dark-winter-jacket"
+  if (!isHandbagInCart) {
+    fetch('/cart/update.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        updates: {
+          7284700282924: 0 
+        }
+      })
+    })
+    .then(response => {
+      // Handle the response as per your requirement
+      console.log('Product removed from the cart');
+    })
+    .catch(error => {
+      // Handle any errors during the request
+      console.error('Error removing product from the cart', error);
+    });
+  }
+}
+
+// Listen for cart updates and check for "handbag" removal
+window.addEventListener('cart:update', function(event) {
+  removeJacketOnHandbagRemoval();
+});
+
 </script>
 
 {% endif %}
