@@ -408,6 +408,16 @@
               %}
 
             {%- when 'variant_picker' -%}
+            {% if product.tags contains 'bundles' %}
+ <p class="cart-attribute__field">
+  <label>Select Size:</label><br>
+  <select required class="required" id="select-size" name="attributes[Select Size]">
+    <option value="unselected"{% if cart.attributes["Select Size"] == "unselected" %} selected{% endif %}>unselected</option>
+    <option value="Small"{% if cart.attributes["Select Size"] == "Small" %} selected{% endif %}>Small</option>
+    <option value="Medium"{% if cart.attributes["Select Size"] == "Medium" %} selected{% endif %}>Medium</option>
+    <option value="Large"{% if cart.attributes["Select Size"] == "Large" %} selected{% endif %}>Large</option>
+  </select>
+</p> {%- endif -%}
               {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
             {%- when 'buy_buttons' -%}
               {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true -%}
