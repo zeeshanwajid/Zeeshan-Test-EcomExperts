@@ -456,7 +456,7 @@
 
 {% unless cart.item_count == 0 or product_to_add_auto.empty? or product_to_add_auto.variants.first.available == false %}
 
-{% assign variant_id = product_to_add_auto.variants.first.id %}
+{% assign variant_id = 42447493201964 %}
 
 {% if allProducts == "no" %}
 
@@ -516,7 +516,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function removeSoftWinterJacket() {
   // Find and remove soft winter Jacket from the cart
   for (let i = 0; i < cartItems.length; i++) {
-    if (cartItems[i].id === {{ product_to_add_auto.variants.first.id }}) {
+    if (cartItems[i].id === {{ 42447493201964 }}) {
       cartItems.splice(i, 1);
       break;
     }
