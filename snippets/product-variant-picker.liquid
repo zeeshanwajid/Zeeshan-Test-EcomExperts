@@ -21,6 +21,17 @@
       {% endif %}
       {{ block.shopify_attributes }}
     >
+
+      {% if product.tags contains 'bundles' %}
+      <p class="cart-attribute__field">
+  <label>Your name</label><br>
+  <select required class="required" id="your-name" name="attributes[Your name]">
+    <option value=""{% if cart.attributes["Your name"] == "unselected" %} selected{% endif %}>unselected</option>
+    <option value="Small"{% if cart.attributes["Your name"] == "Small" %} selected{% endif %}>Small</option>
+    <option value="Medium"{% if cart.attributes["Your name"] == "Medium" %} selected{% endif %}>Medium</option>
+    <option value="Large"{% if cart.attributes["Your name"] == "Large" %} selected{% endif %}>Large</option>
+  </select>
+</p> {%- endif -%}
       {%- for option in product.options_with_values -%}
         <fieldset class="js product-form__input">
           <legend class="form__label">{{ option.name }}</legend>
