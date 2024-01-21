@@ -1270,78 +1270,56 @@ customElements.define('product-recommendations', ProductRecommendations);
 
 
 
+// Add "Soft Winter Jacket" to the cart when "Handbag" is added
+function addToCartWithBundle() {
+  // Make a fetch request to add "Soft Winter Jacket" to the cart
+  fetch('/cart/add.js', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      items: [
+        {
+          id: 7284700282924, // ID of the "Soft Winter Jacket" product
+          quantity: 1,
+          properties: {
+            additional_price: '0.01' // Additional price for the bundle
+          }
+        }
+      ]
+    })
+  })
+  .then(response => {
+    // Handle the response as per your requirement
+    console.log('Product added to the cart with bundle');
+  })
+  .catch(error => {
+    // Handle any errors during the request
+    console.error('Error adding product to the cart', error);
+  });
+}
 
-document.addEventListener('DOMContentLoaded', function() {
-  // Function to check if the Handbag (Black, Medium) is added to the cart
-  function isHandbagInCart() {
-    var cartItems = JSON.parse(localStorage.getItem('cart'));
-
-    if (!cartItems) {
-      return false;
-    }
-
-    for (var i = 0; i < cartItems.length; i++) {
-      var item = cartItems[i];
-      if (item.id === 7284700348460 && item.properties && item.properties.Size === 'medium') {
-        return true;
+// Remove "Soft Winter Jacket" from the cart when "Handbag" is removed
+function removeFromCartWithBundle() {
+  // Make a fetch request to remove "Soft Winter Jacket" from the cart
+  fetch('/cart/update.js', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      updates: {
+        7284700282924: 0 // ID of the "Soft Winter Jacket" product with quantity 0 for removal
       }
-    }
-
-    return false;
-  }
-
-  // Function to add Soft Leather Jacket to the cart
-  function addSoftLeatherJacketToCart() {
-    var cartItems = JSON.parse(localStorage.getItem('cart'));
-
-    // Check if Handbag (Black, Medium) is in the cart
-    if (isHandbagInCart()) {
-      // Add Soft Leather Jacket with an additional price of 0.01$
-      var jacketItem = {
-        id: 7284700282924,
-        quantity: 1,
-        properties: { size 'medium' } // You can customize this based on your needs
-      };
-
-      cartItems.push(jacketItem);
-
-      // Update the cart in localStorage
-      localStorage.setItem('cart', JSON.stringify(cartItems));
-    }
-  }
-
-  // Function to remove Soft Leather Jacket from the cart
-  function removeSoftLeatherJacketFromCart() {
-    var cartItems = JSON.parse(localStorage.getItem('cart'));
-
-    // Filter out Soft Leather Jacket from the cart
-    cartItems = cartItems.filter(function(item) {
-      return item.id !== 7284700282924;
-    });
-
-    // Update the cart in localStorage
-    localStorage.setItem('cart', JSON.stringify(cartItems));
-  }
-
-  // Hook into the Shopify product form submission
-  var productForm = document.getElementById('product-form');
-
-  if (productForm) {
-    productForm.addEventListener('submit', function() {
-      // Check if Handbag (Black, Medium) is in the cart and add Soft Leather Jacket
-      addSoftLeatherJacketToCart();
-    });
-  }
-
-  // Hook into the cart removal process
-  var cartPage = document.getElementById('cart-page'); // Replace 'cart-page' with your actual cart page identifier
-
-  if (cartPage) {
-    cartPage.addEventListener('click', function(event) {
-      // Check if Handbag (Black, Medium) is removed from the cart and remove Soft Leather Jacket
-      if (event.target.classList.contains('remove-handbag')) {
-        removeSoftLeatherJacketFromCart();
-      }
-    });
-  }
-});
+    })
+  })
+  .then(response => {
+    // Handle the response as per your requirement
+    console.log('Product removed from the cart with bundle');
+  })
+  .catch(error => {
+    // Handle any errors during the request
+    console.error('Error removing product from the cart', error);
+  });
+}
