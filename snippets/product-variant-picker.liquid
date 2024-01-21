@@ -32,6 +32,20 @@
       <script type="application/json">
         {{ product.variants | json }}
       </script>
+      <!-- Dropdown Sizes for handbag -->
+              {% if product.tags contains 'bundles' %}
+         
+           <p class="line-item-property__field">
+            <label>Size:</label><br>
+            <select required class="required" id="size" name="properties[Size]">
+            <option value="unselected">unselected</option>
+            <option value="small">small</option>
+            <option value="medium">medium</option>
+            <option value="large">large</option>
+            </select>
+            </p>
+            {%- endif -%}
+<!-- End of Dropdown Sizes COde -->
     </variant-radios>
   {%- else -%}
     <variant-selects
