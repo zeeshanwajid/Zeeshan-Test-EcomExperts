@@ -151,7 +151,7 @@
       // Add change event listener to the select element
       sizeSelect.addEventListener('change', function () {
         // Check if the selected value is 'unselected'
-        if (sizeSelect.value === 'unselected') {
+        if (sizeSelect.value === '') {
           // Disable the submit button
           submitButton.disabled = true;
         } else {
