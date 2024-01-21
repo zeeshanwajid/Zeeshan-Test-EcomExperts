@@ -44,6 +44,9 @@
         <span class="product-form__error-message"></span>
       </div>
 
+    {%- if show_dynamic_checkout -%}
+          {{ form | payment_button }}
+        {%- endif -%}
       {%- else -%}
       {%- form 'product',
         product,
@@ -100,9 +103,6 @@
         </div>
       {%- endform -%}
 
-
-
-            
     </product-form>
   {%- else -%}
     <div class="product-form">
