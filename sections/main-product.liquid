@@ -668,6 +668,15 @@
     }
   </script>
   </div>
+                          {% if product.title == "Soft Winter Jacket" %}
+  <!-- Add a message or disable the button to inform users -->
+  {% comment %} Example: <p>This product is available only in a bundle.</p> {% endcomment %}
+  <button disabled>Add to Cart</button>
+{% else %}
+  <!-- Your regular Add to Cart button code -->
+  <button>Add to Cart</button>
+{% endif %}
+
 </section>
 
 {% schema %}
