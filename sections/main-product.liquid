@@ -120,29 +120,34 @@
               <div {{ block.shopify_attributes }}>
                 {%- assign product_form_installment_id = 'product-form-installment-' | append: section.id -%}
                 {%- form 'product', product, id: product_form_installment_id, class: 'installment caption-large' -%}
-                  <!-- Dropdown Sizes for handbag -->
-              {% if product.tags contains 'bundles' %}
+
+                  
+        <!-- Dropdown Sizes for handbag -->
+    {% if product.tags contains 'bundles' %}
          
-          <div class="product-form__input product-form__input--dropdown">
-<label class="form__label-dropdown">Size</label>
-<div class="select">
-<select class="select__select" id="size" name="properties[Size]" form="{{ 'product-form-' | append: section.id }}" required>
-    <option value="" hidden selected>Please select</option>
-        <option value="small">small</option>
-        <option value=" medium"> medium</option>
-        <option value="large">large</option>
-</select>
-<svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
-<path fill-rule="evenodd" clip-rule="evenodd" 
-d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" 
-fill="currentColor">
-</path></svg>
-</div></div>
-    <script>
-    document.addEventListener("DOMContentLoaded", ()=>{document.querySelector("form[novalidate]").removeAttribute("novalidate")})
-    </script>
-            {%- endif -%}
+              <div class="product-form__input product-form__input--dropdown">
+              <label class="form__label-dropdown">Size</label>
+              <div class="select">
+              <select class="select__select" id="size" name="properties[Size]" form="{{ 'product-form-' | append: section.id }}" required>
+                  <option value="" hidden selected>Please select</option>
+                      <option value="small">small</option>
+                      <option value=" medium"> medium</option>
+                      <option value="large">large</option>
+              </select>
+              <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
+              <path fill-rule="evenodd" clip-rule="evenodd" 
+              d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" 
+              fill="currentColor">
+              </path></svg>
+              </div></div>
+              <script>
+              document.addEventListener("DOMContentLoaded", ()=>{document.querySelector("form[novalidate]").removeAttribute("novalidate")})
+              </script>
+    {%- endif -%}
 <!-- End of Dropdown Sizes COde -->
+
+
+                  
                   <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
                   {{ form | payment_terms }}
                 {%- endform -%}
