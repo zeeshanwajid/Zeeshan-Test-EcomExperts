@@ -141,8 +141,24 @@
               </path></svg>
               </div></div>
               <script>
-              document.addEventListener("DOMContentLoaded", ()=>{document.querySelector("form[novalidate]").removeAttribute("novalidate")})
-              </script>
+             document.addEventListener("DOMContentLoaded", function() {
+  var submitButton = document.querySelector('#ProductSubmitButton-{{ section_id }}');
+  var variantSelect = document.querySelector('#size');
+
+  variantSelect.addEventListener('change', function() {
+    if (variantSelect.value === '') {
+      submitButton.setAttribute('disabled', 'disabled');
+    } else {
+      submitButton.removeAttribute('disabled');
+    }
+  });
+
+  // Initial check on page load
+  if (variantSelect.value === '') {
+    submitButton.setAttribute('disabled', 'disabled');
+  }
+});
+</script>
     {%- endif -%}
 <!-- End of Dropdown Sizes COde -->
 
