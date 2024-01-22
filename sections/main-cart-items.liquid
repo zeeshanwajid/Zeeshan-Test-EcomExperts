@@ -492,9 +492,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Find quantity of Winter Jacket in the cart
-  for (let i = 0; i < cartItems.length; i++) {
-    if (cartItems[i].id === {{ variant_id_winter_jacket }}) {
-      qtyWinterJacket = cartItems[i].quantity;
+  for (let j = 0; j < cartItems.length; j++) {
+    if (cartItems[j].id === {{ variant_id_winter_jacket }}) {
+      qtyWinterJacket = cartItems[j].quantity;
       break;
     }
   }
@@ -531,6 +531,7 @@ document.addEventListener("DOMContentLoaded", function () {
 {% endif %}
 
 {% endunless %}
+
 
 
 
