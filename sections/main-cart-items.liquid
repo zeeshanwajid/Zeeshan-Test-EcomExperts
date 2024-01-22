@@ -456,66 +456,79 @@
 
 
 <!-- Start Auto Add to Cart "Jacket" -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Replace 'remove-product-button' with the actual ID or class of your remove button/link
+    var removeButton = document.getElementById('remove-product-button');
 
-{% assign allProducts = "no" %}
+    if (removeButton) {
+      removeButton.addEventListener('click', function(event) {
+        event.preventDefault();
 
-{% assign for_specific_product = all_products['handbag'] %}
-{% assign product_to_add_auto = all_products['dark-winter-jacket'] %}
+        // Get the product ID
+        var productId = "{{ product.id }}"; // Replace with the Liquid code to get the product ID
 
-{% unless cart.item_count == 0 or product_to_add_auto.empty? or product_to_add_auto.variants.first.available == false %}
+        // Use Shopify AJAX API to remove the product from the cart
+        Shopify.post('/cart/change.js', {
+          quantity: 0,
+          id: productId
+        }, function(cart) {
+          // Reload the cart page
+          window.location.reload();
+        });
+      });
+    }
 
-{% assign variant_id_auto_add = product_to_add_auto.variants.first.id %}
-{% assign variant_id_handbag = 42447493201964 %}
+    // Additional code you provided
+    {% assign allProducts = "no" %}
+    {% assign for_specific_product = all_products['handbag'] %}
+    {% assign product_to_add_auto = all_products['dark-winter-jacket'] %}
 
-{% assign isHandbagInCart = false %}
-{% assign isJacketInCart = false %}
+    {% unless cart.item_count == 0 or product_to_add_auto.empty? or product_to_add_auto.variants.first.available == false %}
+    {% assign variant_id_auto_add = product_to_add_auto.variants.first.id %}
+    {% assign variant_id_handbag = 42447493201964 %}
 
-{% for item in cart.items %}
-  {% if item.product.handle == for_specific_product.handle %}
-    {% assign isHandbagInCart = true %}
-  {% endif %}
-  {% if item.product.handle == product_to_add_auto.handle %}
-    {% assign isJacketInCart = true %}
-  {% endif %}
-{% endfor %}
+    {% assign isHandbagInCart = false %}
+    {% assign isJacketInCart = false %}
 
-{% if isHandbagInCart and isJacketInCart == false %}
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-       
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", "/cart/update.js", true);
-      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          window.location.href = "/cart";
-        }
-      };
-      xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 1 } }));
-    });
-  </script>
-{% elsif isHandbagInCart == false and isJacketInCart %}
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", "/cart/update.js", true);
-      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          window.location.href = "/cart";
-              
-        }
-      };
-      xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 0 } }));
-    });
-    
-  </script>
-{% endif %}
+    {% for item in cart.items %}
+      {% if item.product.handle == for_specific_product.handle %}
+        {% assign isHandbagInCart = true %}
+      {% endif %}
+      {% if item.product.handle == product_to_add_auto.handle %}
+        {% assign isJacketInCart = true %}
+      {% endif %}
+    {% endfor %}
 
-{% endunless %}
+    {% if isHandbagInCart and isJacketInCart == false %}
+      <script>
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/cart/update.js", true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            window.location.href = "/cart";
+          }
+        };
+        xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 1 } }));
+      </script>
+    {% elsif isHandbagInCart == false and isJacketInCart %}
+      <script>
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/cart/update.js", true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            window.location.href = "/cart";
+          }
+        };
+        xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 0 } }));
+      </script>
+    {% endif %}
 
-
+    {% endunless %}
+  });
+</script>
 
 <!-- End Auto Add to Cart "Jacket" -->
                               
