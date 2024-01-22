@@ -463,7 +463,7 @@
 {% assign isProduct = false %}
 
 {% for item in cart.items %}
-  {% if item.product.handle == for_specific_product.handle %}
+  {% if item.product.handle == handbag %}
     {% assign isProduct = true %}
   {% endif %}
 {% endfor %}
