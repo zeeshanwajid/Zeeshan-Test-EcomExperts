@@ -455,120 +455,119 @@
 
 
 
-{% assign allProducts = "no" %}
-
-{% assign for_specific_product = all_products['handbag'] %}
-{% assign product_to_add_auto = all_products['dark-winter-jacket'] %}
-
-{% unless cart.item_count == 0 or product_to_add_auto.empty? or product_to_add_auto.variants.first.available == false %}
-
-{% assign variant_id_auto_add = product_to_add_auto.variants.first.id %}
-{% assign variant_id_handbag = 42447493201964 %}
-
-{% if allProducts == "no" %}
-
-{% assign isProduct = false %}
-
-{% for item in cart.items %}
-  {% if item.product.handle == for_specific_product.handle %}
-    {% assign isProduct = true %}
-  {% endif %}
-{% endfor %}
-
-{% if isProduct == true %}
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    let cartItems = {{ cart.items | json }};
-    let qtyHandbag = 0;
-    let qtyJacket = 0;
-    let cartUpdates = {};
-
-    for (let i = 0; i < cartItems.length; i++) {
-      if (cartItems[i].id === {{ variant_id_handbag }}) {
-        qtyHandbag = cartItems[i].quantity;
-      }
-      if (cartItems[i].id === {{ variant_id_auto_add }}) {
-        qtyJacket = cartItems[i].quantity;
-      }
-    }
-
-    if (qtyHandbag > 0 && qtyJacket === 0) {
-      cartUpdates = { {{ variant_id_auto_add }}: 1 };
-    } else if (qtyHandbag === 0 && qtyJacket > 0) {
-      cartUpdates = { {{ variant_id_auto_add }}: 0 };
-    } else if (qtyHandbag === 0 && qtyJacket === 0) {
-      // If both products are not in the cart, no need for an update
-      return;
-    }
-
-    if (Object.keys(cartUpdates).length > 0) {
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", "/cart/update.js", true);
-      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          window.location.href = "/cart";
-        }
-      };
-      xhr.send(JSON.stringify({ updates: cartUpdates }));
-    }
-  });
-</script>
-
-{% endif %}
-
-{% else %}
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    let cartItems = {{ cart.items | json }};
-    let qtyHandbag = 0;
-    let qtyJacket = 0;
-    let cartUpdates = {};
-
-    for (let i = 0; i < cartItems.length; i++) {
-      if (cartItems[i].id === {{ variant_id_handbag }}) {
-        qtyHandbag = cartItems[i].quantity;
-      }
-      if (cartItems[i].id === {{ variant_id_auto_add }}) {
-        qtyJacket = cartItems[i].quantity;
-      }
-    }
-
-    if (qtyHandbag > 0 && qtyJacket === 0) {
-      cartUpdates = { {{ variant_id_auto_add }}: 1 };
-    } else if (qtyHandbag === 0 && qtyJacket > 0) {
-      cartUpdates = { {{ variant_id_auto_add }}: 0 };
-    } else if (qtyHandbag === 0 && qtyJacket === 0) {
-      // If both products are not in the cart, no need for an update
-      return;
-    }
-
-    if (Object.keys(cartUpdates).length > 0) {
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", "/cart/update.js", true);
-      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          window.location.href = "/cart";
-        }
-      };
-      xhr.send(JSON.stringify({ updates: cartUpdates }));
-    }
-  });
-</script>
-
-{% endif %}
-
-{% endunless %}
 
 
+<!-- Start Auto Add to Cart "Jacket" -->
 
+            {% assign allProducts = "no" %}
+            
+            {% assign for_specific_product = all_products['handbag'] %}
+            {% assign product_to_add_auto = all_products['dark-winter-jacket'] %}
+            
+            {% unless cart.item_count == 0 or product_to_add_auto.empty? or product_to_add_auto.variants.first.available == false %}
+            
+            {% assign variant_id_auto_add = product_to_add_auto.variants.first.id %}
+            {% assign variant_id_handbag = 42447493201964 %}
+            
+            {% if allProducts == "no" %}
+            
+            {% assign isProduct = false %}
+            
+            {% for item in cart.items %}
+              {% if item.product.handle == for_specific_product.handle %}
+                {% assign isProduct = true %}
+              {% endif %}
+            {% endfor %}
+            
+            {% if isProduct == true %}
+            
+            <script>
+              document.addEventListener("DOMContentLoaded", function () {
+                let cartItems = {{ cart.items | json }};
+                let qtyHandbag = 0;
+                let qtyJacket = 0;
+                let cartUpdates = {};
+            
+                for (let i = 0; i < cartItems.length; i++) {
+                  if (cartItems[i].id === {{ variant_id_handbag }}) {
+                    qtyHandbag = cartItems[i].quantity;
+                  }
+                  if (cartItems[i].id === {{ variant_id_auto_add }}) {
+                    qtyJacket = cartItems[i].quantity;
+                  }
+                }
+            
+                if (qtyHandbag > 0 && qtyJacket === 0) {
+                  cartUpdates = { {{ variant_id_auto_add }}: 1 };
+                } else if (qtyHandbag === 0 && qtyJacket > 0) {
+                  cartUpdates = { {{ variant_id_auto_add }}: 0 };
+                } else if (qtyHandbag === 0 && qtyJacket === 0) {
+                  // If both products are not in the cart, no need for an update
+                  return;
+                }
+            
+                if (Object.keys(cartUpdates).length > 0) {
+                  const xhr = new XMLHttpRequest();
+                  xhr.open("POST", "/cart/update.js", true);
+                  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                  xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                      window.location.href = "/cart";
+                    }
+                  };
+                  xhr.send(JSON.stringify({ updates: cartUpdates }));
+                }
+              });
+            </script>
+            
+            {% endif %}
+            
+            {% else %}
+            
+            <script>
+              document.addEventListener("DOMContentLoaded", function () {
+                let cartItems = {{ cart.items | json }};
+                let qtyHandbag = 0;
+                let qtyJacket = 0;
+                let cartUpdates = {};
+            
+                for (let i = 0; i < cartItems.length; i++) {
+                  if (cartItems[i].id === {{ variant_id_handbag }}) {
+                    qtyHandbag = cartItems[i].quantity;
+                  }
+                  if (cartItems[i].id === {{ variant_id_auto_add }}) {
+                    qtyJacket = cartItems[i].quantity;
+                  }
+                }
+            
+                if (qtyHandbag > 0 && qtyJacket === 0) {
+                  cartUpdates = { {{ variant_id_auto_add }}: 1 };
+                } else if (qtyHandbag === 0 && qtyJacket > 0) {
+                  cartUpdates = { {{ variant_id_auto_add }}: 0 };
+                } else if (qtyHandbag === 0 && qtyJacket === 0) {
+                  // If both products are not in the cart, no need for an update
+                  return;
+                }
+            
+                if (Object.keys(cartUpdates).length > 0) {
+                  const xhr = new XMLHttpRequest();
+                  xhr.open("POST", "/cart/update.js", true);
+                  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                  xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                      window.location.href = "/cart";
+                    }
+                  };
+                  xhr.send(JSON.stringify({ updates: cartUpdates }));
+                }
+              });
+            </script>
+            
+            {% endif %}
+            
+            {% endunless %}
 
-
-
-
+<!-- End Auto Add to Cart "Jacket" -->
 
                               
 {% schema %}
