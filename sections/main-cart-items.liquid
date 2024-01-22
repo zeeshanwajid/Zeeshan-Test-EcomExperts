@@ -498,7 +498,7 @@ document.addEventListener("DOMContentLoaded", function () {
   for (let i = 0; i < cartItems.length; i++) {
     if (cartItems[i].id === {{ variant_id_winter_jacket }}) {
       qtyWinterJacket = cartItems[i].quantity;
-      break;
+      return;
     }
   }
 
