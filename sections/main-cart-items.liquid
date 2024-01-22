@@ -495,7 +495,7 @@ document.addEventListener("DOMContentLoaded", function () {
   for (let i = 0; i < cartItems.length; i++) {
     if (cartItems[i].id === {{ variant_id_winter_jacket }}) {
       qtyWinterJacket = cartItems[i].quantity;
-      return;
+      break;
     }
   }
 
@@ -503,15 +503,11 @@ document.addEventListener("DOMContentLoaded", function () {
   if (qtyHandbag > 0) {
     // Handbag is in the cart, update quantity of Winter Jacket
     cartUpdates = { {{ variant_id_winter_jacket }}: qtyWinterJacket + 1 };
-  } else if (qtyWinterJacket > 0) {
-    // Handbag is not in the cart, but Winter Jacket is, remove both
+  } else {
+    // Handbag is not in the cart, remove Winter Jacket
     cartUpdates = {
-      {{ variant_id_handbag }}: 0,
       {{ variant_id_winter_jacket }}: 0
     };
-  } else {
-    // Neither Handbag nor Winter Jacket is in the cart, do nothing
-    return;
   }
 
   // Send the cart updates to the server
