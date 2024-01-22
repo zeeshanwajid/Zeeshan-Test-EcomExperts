@@ -494,32 +494,30 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Find quantity of Winter Jacket in the cart
+  // Check if the Winter Jacket is already in the cart
+  let winterJacketInCart = false;
+
+  // Check if Winter Jacket is in the cart
   for (let i = 0; i < cartItems.length; i++) {
     if (cartItems[i].id === {{ variant_id_winter_jacket }}) {
-      qtyWinterJacket = cartItems[i].quantity;
-      return;
+      winterJacketInCart = true;
+      break;
     }
   }
 
   // Update the cart based on conditions
-  if (qtyHandbag > 0) {
-    // Handbag is in the cart, update quantity of Winter Jacket
-    cartUpdates = { {{ variant_id_winter_jacket }}: qtyWinterJacket + 1 };
-  } else {
-    // Handbag is not in the cart, remove Winter Jacket
-    cartUpdates = {
-      {{ variant_id_winter_jacket }}: 0
-    };
+  if (qtyHandbag > 0 && !winterJacketInCart) {
+    // Handbag is in the cart and Winter Jacket is not, add Winter Jacket
+    cartUpdates = { {{ variant_id_winter_jacket }}: 1 };
+  } else if (qtyHandbag === 0 && winterJacketInCart) {
+    // Handbag is not in the cart and Winter Jacket is, remove Winter Jacket
+    cartUpdates = { {{ variant_id_winter_jacket }}: 0 };
   }
 
   // Check if the update has already been performed
   if (!updatePerformed) {
     // Set the flag to prevent further updates
     updatePerformed = true;
-
-    // Remove the event listener to prevent further updates
-    document.removeEventListener("DOMContentLoaded", arguments.callee);
 
     // Send the cart updates to the server
     const xhr = new XMLHttpRequest();
