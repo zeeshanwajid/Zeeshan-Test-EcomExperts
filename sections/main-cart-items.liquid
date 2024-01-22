@@ -469,14 +469,14 @@
 {% assign qtyHandbag = 0 %}
 {% assign qtyWinterJacket = 0 %}
 
-
+{% for item in cart.items %}
   {% if item.product.handle == handbag_product.handle %}
     {% assign isHandbagInCart = true %}
     {% assign qtyHandbag = item.quantity %}
   {% elsif item.product.id == variant_id_winter_jacket %}
     {% assign qtyWinterJacket = item.quantity %}
   {% endif %}
-
+{% endfor %}
 
 {% if isHandbagInCart %}
 
