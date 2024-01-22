@@ -501,17 +501,19 @@
       cartUpdates = { {{ variant_id_auto_add }}: 0 }
     }   
     
-    const params = {        
-      type: 'POST',
-      url: '/cart/update.js',
-      data: { updates: cartUpdates },
-      dataType: 'json',
-      success: function(stuff) { 
-        window.location.href = '/cart';
-      }
-    };  
+    if (Object.keys(cartUpdates).length > 0) {
+      const params = {        
+        type: 'POST',
+        url: '/cart/update.js',
+        data: { updates: cartUpdates },
+        dataType: 'json',
+        success: function(stuff) { 
+          window.location.href = '/cart';
+        }
+      };  
 
-    $.ajax(params);
+      $.ajax(params);
+    }
 
 })(jQuery);
   
@@ -545,17 +547,19 @@
       cartUpdates = { {{ variant_id_auto_add }}: 0 }
     }      
     
-    const params = {        
-      type: 'POST',
-      url: '/cart/update.js',
-      data: { updates: cartUpdates },
-      dataType: 'json',
-      success: function(stuff) { 
-        window.location.href = '/cart';
-      }
-    };  
+    if (Object.keys(cartUpdates).length > 0) {
+      const params = {        
+        type: 'POST',
+        url: '/cart/update.js',
+        data: { updates: cartUpdates },
+        dataType: 'json',
+        success: function(stuff) { 
+          window.location.href = '/cart';
+        }
+      };  
 
-    $.ajax(params);
+      $.ajax(params);
+    }
 
 })(jQuery);
   
