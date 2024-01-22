@@ -167,28 +167,7 @@ class CartItems extends HTMLElement {
         } else if (document.querySelector('.cart-item') && cartDrawerWrapper) {
           trapFocus(cartDrawerWrapper, document.querySelector('.cart-item__name'));
         }
-document.addEventListener('DOMContentLoaded', function() {
-    // Replace 'remove-product-button' with the actual ID or class of your remove button/link
-    var removeButton = document.getElementById('Remove-2');
 
-    if (removeButton) {
-      removeButton.addEventListener('click', function(event) {
-        event.preventDefault();
-
-        // Get the product ID
-        var productId = "{{ 7284700348460 }}"; // Replace with the Liquid code to get the product ID
-
-        // Use Shopify AJAX API to remove the product from the cart
-        Shopify.post('/cart/change.js', {
-          quantity: 0,
-          id: productId
-        }, function(cart) {
-          // Reload the cart page
-          window.location.reload();
-        });
-      });
-    }
-  });
         publish(PUB_SUB_EVENTS.cartUpdate, { source: 'cart-items', cartData: parsedState, variantId: variantId });
       })
       .catch(() => {
