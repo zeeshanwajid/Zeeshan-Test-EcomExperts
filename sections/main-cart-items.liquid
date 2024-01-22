@@ -457,7 +457,7 @@
 
 
 
-{% assign allProducts = "yes" %}
+{% assign allProducts = "no" %}
 
 {% assign for_specific_product = all_products['handbag'] %}
 
@@ -465,111 +465,58 @@
 
 {% unless cart.item_count == 0 or product_to_add_auto.empty? or product_to_add_auto.variants.first.available == false %}
 
-{% assign variant_id = product_to_add_auto.variants.first.id %}
+  {% assign variant_id = 42447493201964 %}
 
-{% if allProducts == "no" %}
+  {% if allProducts == "no" %}
+    {% assign isProduct = false %}
+    {% for item in cart.items %}
+      {% if item.product.handle == for_specific_product.handle %}
+        {% assign isProduct = true %}
+      {% endif %}
+    {% endfor %}
 
-{% assign isProduct = false %}
+    {% if isProduct == true %}
+      <script>
+        // JavaScript to handle removal of "dark-winter-jacket" when removing "handbag"
+        (function($) {
+          document.addEventListener('DOMContentLoaded', function() {
+            $('body').on('cart.requestComplete', function(event, cart) {
+              var handbagItem = findCartItemByHandle(cart.items, '{{ for_specific_product.handle }}');
+              if (!handbagItem) {
+                var cartUpdates = {};
+                cartUpdates['{{ variant_id }}'] = 0;
 
-{% for item in cart.items %}
-  {% if item.product.handle == for_specific_product.handle %}
-  	{% assign isProduct = true %}
+                // Update the cart
+                $.ajax({
+                  type: 'POST',
+                  url: '/cart/update.js',
+                  data: { updates: cartUpdates },
+                  dataType: 'json',
+                  success: function() {
+                    window.location.href = '/cart';
+                  }
+                });
+              }
+            });
+
+            function findCartItemByHandle(items, handle) {
+              for (var i = 0; i < items.length; i++) {
+                if (items[i].product.handle === handle) {
+                  return items[i];
+                }
+              }
+              return null;
+            }
+          });
+        })(jQuery);
+      </script>
+    {% endif %}
+  {% else %}
+    <!-- Code for scenarios where allProducts is not "no" -->
   {% endif %}
-{% endfor %}
-
-{% if isProduct == true %}
-
-<script>  
-  
-(function($) {   
-    
-    let cartItems = {{ cart.items | json }},
-        qtyInTheCart = 0,        
-        cartUpdates = {};
-
-    for (let i=0; i<cartItems.length; i++) {
-      if ( cartItems[i].id === {{ variant_id }} ) {
-        qtyInTheCart = cartItems[i].quantity;
-        break;
-      }      
-    }    
-
-    if ((cartItems.length === 1) && (qtyInTheCart > 0)) {
-      cartUpdates = { {{ variant_id }}: 0 }
-      
-    }
-    else if (( cartItems.length >= 1) && (qtyInTheCart !== 1 )) {
-      cartUpdates = { {{ variant_id }}: 1 }
-    }
-    else {
-      return;
-    }   
-    
-    const params = {        
-      type: 'POST',
-      url: '/cart/update.js',
-      data: { updates: cartUpdates },
-      dataType: 'json',
-      success: function(stuff) { 
-        window.location.href = '/cart';
-      }
-    };  
-
-    $.ajax(params);
-
-})(jQuery);
-  
-</script>
-
-{% endif %}
-
-{% else %}
-
-<script>  
-  
-(function($) {   
-    
-    let cartItems = {{ cart.items | json }},
-        qtyInTheCart = 0,        
-        cartUpdates = {};
-
-    for (let i=0; i<cartItems.length; i++) {
-      if ( cartItems[i].id === {{ variant_id }} ) {
-        qtyInTheCart = cartItems[i].quantity;
-        break;
-      }      
-    }    
-
-    if ((cartItems.length === 1) && (qtyInTheCart > 0)) {
-      cartUpdates = { {{ variant_id }}: 0 }
-      
-    }
-    else if (( cartItems.length >= 1) && (qtyInTheCart !== 1 )) {
-      cartUpdates = { {{ variant_id }}: 1 }
-    }
-    else {
-      return;
-    }      
-    
-    const params = {        
-      type: 'POST',
-      url: '/cart/update.js',
-      data: { updates: cartUpdates },
-      dataType: 'json',
-      success: function(stuff) { 
-        window.location.href = '/cart';
-      }
-    };  
-
-    $.ajax(params);
-
-})(jQuery);
-  
-</script>
-
-{% endif %}
 
 {% endunless %}
+
 
                               
 {% schema %}
