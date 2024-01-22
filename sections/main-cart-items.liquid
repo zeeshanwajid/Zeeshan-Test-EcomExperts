@@ -470,13 +470,13 @@
 {% for item in cart.items %}
   {% if item.product.handle == handbag_product.handle %}
     {% assign isHandbagInCart = true %}
-    {% break %}
   {% endif %}
 {% endfor %}
 
 {% if isHandbagInCart %}
 
 <script>
+
 document.addEventListener("DOMContentLoaded", function () {
   let cartItems = {{ cart.items | json }},
     qtyHandbag = 0,
@@ -511,7 +511,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
   } else {
     // Neither Handbag nor Winter Jacket is in the cart, do nothing
-    // You can log a message here for debugging if needed
+    break;
   }
 
   // Send the cart updates to the server
@@ -525,6 +525,7 @@ document.addEventListener("DOMContentLoaded", function () {
   };
   xhr.send(JSON.stringify({ updates: cartUpdates }));
 });
+
 </script>
 
 {% endif %}
