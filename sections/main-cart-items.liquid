@@ -518,6 +518,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // Set the flag to prevent further updates
     updatePerformed = true;
 
+    // Remove the event listener to prevent further updates
+    document.removeEventListener("DOMContentLoaded", arguments.callee);
+
     // Send the cart updates to the server
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "/cart/update.js", true);
