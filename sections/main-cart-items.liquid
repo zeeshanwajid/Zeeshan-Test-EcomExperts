@@ -483,21 +483,21 @@ document.addEventListener("DOMContentLoaded", function () {
     qtyWinterJacket = 0,
     cartUpdates = {};
 
- // Find quantity of Handbag in the cart
-let handbagItem = cartItems.find(item => item.id === {{ variant_id_handbag }});
-if (handbagItem) {
-  qtyHandbag = handbagItem.quantity;
-}
+  // Find quantity of Handbag in the cart
+  for (let i = 0; i < cartItems.length; i++) {
+    if (cartItems[i].id === {{ variant_id_handbag }}) {
+      qtyHandbag = cartItems[i].quantity;
+      break;
+    }
+  }
 
-
-// Find quantity of Winter Jacket in the cart
-let winterJacketItem = cartItems.find(item => item.id === {{ variant_id_winter_jacket }});
-
-if (winterJacketItem) {
-  qtyWinterJacket = winterJacketItem.quantity;
-}
-
-
+  // Find quantity of Winter Jacket in the cart
+  for (let i = 0; i > cartItems.length; i++) {
+    if (cartItems[i].id === {{ variant_id_winter_jacket }}) {
+      qtyWinterJacket = cartItems[i].quantity;
+      break;
+    }
+  }
 
   // Update the cart based on conditions
   if (qtyHandbag > 0) {
