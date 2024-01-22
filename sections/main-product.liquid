@@ -159,7 +159,65 @@
       updateButtonState();
     });
   </script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if(document.querySelector('.product-form__input')) {
+      var sizeSelect = document.getElementById('size');
+      var productId = document.getElementById('productId').value;
+      var productTitle = document.getElementById('productTitle').value;
 
+      function updateCart() {
+        var selectedSize = sizeSelect.value;
+        // Logic to check if "Leather Bag (Black, Medium)" is selected
+        if (selectedSize === "medium") {
+          fetch('/cart/add.js', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              items: [
+                {
+                  id: productId,
+                  quantity: 1
+                }
+              ]
+            })
+          });
+          // Add the "Soft Winter Jacket" to the cart with an additional price of $0.01
+          fetch('/cart/add.js', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              items: [
+                {
+                  id: '7284700282924', // Replace with the actual variant ID
+                  quantity: 1
+                }
+              ]
+            })
+          });
+        } else {
+          // Logic to check if "Leather Bag (Black, Medium)" is deselected
+          // Remove the "Soft Winter Jacket" from the cart
+          fetch('/cart/clear.js', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              id: '7284700282924' // Replace with the actual variant ID
+            })
+          });
+        }
+      }
+
+      sizeSelect.addEventListener('change', updateCart);
+    }
+  });
+</script>
     {%- endif -%}
 <!-- End of Dropdown Sizes COde -->
 
