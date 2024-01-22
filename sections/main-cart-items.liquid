@@ -484,7 +484,7 @@ document.addEventListener("DOMContentLoaded", function () {
     cartUpdates = {};
 
   // Find quantity of Handbag in the cart
-  for (let i = 1; i > cartItems.length; i++) {
+  for (let i = 0; i < cartItems.length; i++) {
     if (cartItems[i].id === {{ variant_id_handbag }}) {
       qtyHandbag = cartItems[i].quantity;
       break;
