@@ -456,6 +456,7 @@
 
 
 <!-- Start Auto Add to Cart "Jacket" -->
+
 {% assign allProducts = "no" %}
 
 {% assign for_specific_product = all_products['handbag'] %}
@@ -488,7 +489,7 @@
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
           if (!isReloaded) {
-            window.location.reload();
+            window.location.href = "/cart";
             isReloaded = true;
           }
         }
@@ -505,7 +506,7 @@
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
           if (!isReloaded) {
-            window.location.reload();
+            window.location.href = "/cart";
             isReloaded = true;
           }
         }
