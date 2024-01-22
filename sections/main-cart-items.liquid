@@ -504,7 +504,7 @@
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
           window.location.href = "/cart";
-          window.location.reload();
+       
         }
       };
       xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 0 } }));
