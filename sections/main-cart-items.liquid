@@ -469,6 +469,7 @@
 
 {% assign isHandbagInCart = false %}
 {% assign isJacketInCart = false %}
+{% assign isRefreshed = false %}
 
 {% for item in cart.items %}
   {% if item.product.handle == for_specific_product.handle %}
@@ -479,7 +480,7 @@
   {% endif %}
 {% endfor %}
 
-{% if isHandbagInCart and isJacketInCart == false %}
+{% if isHandbagInCart and isJacketInCart == false and isRefreshed == false %}
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const xhr = new XMLHttpRequest();
@@ -487,7 +488,10 @@
       xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-          window.location.href = "/cart";
+          if (!isRefreshed) {
+            window.location.reload();
+            isRefreshed = true;
+          }
         }
       };
       xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 1 } }));
@@ -501,16 +505,19 @@
       xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-          window.location.href = "/cart";
+          if (!isRefreshed) {
+            window.location.reload();
+            isRefreshed = true;
+          }
         }
       };
       xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 0 } }));
     });
-    
   </script>
 {% endif %}
 
 {% endunless %}
+
 
 
 
