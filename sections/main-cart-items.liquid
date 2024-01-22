@@ -466,13 +466,13 @@
   {% assign variant_id_winter_jacket = winter_jacket_product.variants.first.id %}
 
   {% assign isHandbagInCart = false %}
+{% for item in cart.items %}
+  {% if item.product.handle == handbag_product.handle %}
+    {% assign isHandbagInCart = true %}
+    {% break %}
+  {% endif %}
+{% endfor %}
 
-  {% for item in cart.items %}
-    {% if item.product.handle == handbag_product.handle %}
-      {% assign isHandbagInCart = true %}
-      {% break %}
-    {% endif %}
-  {% endfor %}
 
   {% if isHandbagInCart %}
 
@@ -517,6 +517,7 @@
   {% endif %}
 
 {% endunless %}
+
 
 
 
