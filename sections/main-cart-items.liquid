@@ -503,8 +503,12 @@
       xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-          window.location.href = "/cart";
-       
+          const isHandbagStillInCart = document.querySelector('[data-product-id="{{ variant_id_handbag }}"]');
+          
+          // If the "Handbag" product is not in the cart, trigger a page reload
+          if (!isHandbagStillInCart) {
+            window.location.reload();
+          }
         }
       };
       xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 0 } }));
