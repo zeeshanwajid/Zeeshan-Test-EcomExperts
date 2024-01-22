@@ -482,11 +482,7 @@
 {% if isHandbagInCart and isJacketInCart == false %}
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-       var productIdToCheck = '7284700348460';
-       var productExists = document.querySelector('[data-product-id="' + productIdToCheck + '"]');
-       if (!productExists) {
-       window.location.reload();
-      }
+       
       const xhr = new XMLHttpRequest();
       xhr.open("POST", "/cart/update.js", true);
       xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -501,6 +497,11 @@
 {% elsif isHandbagInCart == false and isJacketInCart %}
   <script>
     document.addEventListener("DOMContentLoaded", function () {
+      var productIdToCheck = '7284700348460';
+       var productExists = document.querySelector('[data-product-id="' + productIdToCheck + '"]');
+       if (!productExists) {
+       window.location.reload();
+      }
       const xhr = new XMLHttpRequest();
       xhr.open("POST", "/cart/update.js", true);
       xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
