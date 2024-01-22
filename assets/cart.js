@@ -169,7 +169,7 @@ class CartItems extends HTMLElement {
         }
 document.addEventListener('DOMContentLoaded', function() {
     // Replace 'remove-product-button' with the actual ID or class of your remove button/link
-    var removeButton = document.getElementById('remove-product-button');
+    var removeButton = document.getElementById('Remove-2');
 
     if (removeButton) {
       removeButton.addEventListener('click', function(event) {
