@@ -457,7 +457,7 @@
 
 <!-- Start Auto Add to Cart "Jacket" -->
 
- {% assign allProducts = "no" %}
+{% assign allProducts = "no" %}
 {% assign for_specific_product = all_products['handbag'] %}
 {% assign product_to_add_auto = all_products['dark-winter-jacket'] %}
 
@@ -476,23 +476,7 @@
     {% endif %}
   {% endfor %}
 
-  {% if isProductHandbag == true %}
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        fetch('/cart/update.js', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ updates: { '{{ product_to_add_auto.variants.first.id }}': 1 } })
-        }).then(function(response) {
-          if (response.ok) {
-            window.location.href = "/cart";
-          }
-        });
-      });
-    </script>
-  {% elsif isProductHandbag == false and isProductJacket == true %}
+  {% if isProductHandbag == false and isProductJacket == true %}
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         fetch('/cart/update.js', {
@@ -511,6 +495,7 @@
   {% endif %}
 
 {% endunless %}
+
 
 
 
