@@ -462,38 +462,58 @@
 {% assign for_specific_product = all_products['handbag'] %}
 {% assign product_to_add_auto = all_products['dark-winter-jacket'] %}
 
+{% unless cart.item_count == 0 or product_to_add_auto.empty? or product_to_add_auto.variants.first.available == false %}
+
+{% assign variant_id_auto_add = product_to_add_auto.variants.first.id %}
 {% assign variant_id_handbag = 42447493201964 %}
 
 {% assign isHandbagInCart = false %}
+{% assign isJacketInCart = false %}
 
 {% for item in cart.items %}
   {% if item.product.handle == for_specific_product.handle %}
     {% assign isHandbagInCart = true %}
   {% endif %}
+  {% if item.product.handle == product_to_add_auto.handle %}
+    {% assign isJacketInCart = true %}
+  {% endif %}
 {% endfor %}
 
-{% if isHandbagInCart %}
+{% if isHandbagInCart and isJacketInCart == false %}
   <script>
     document.addEventListener("DOMContentLoaded", function () {
+       
       const xhr = new XMLHttpRequest();
       xhr.open("POST", "/cart/update.js", true);
       xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-          // Check if the "Handbag" product is still in the cart after the update
-          const isHandbagStillInCart = document.querySelector('[data-product-id="{{ variant_id_handbag }}"]');
-          
-          // If the "Handbag" product is not in the cart, trigger a page reload
-          if (!isHandbagStillInCart) {
-            window.location.reload();
-          }
+          window.location.href = "/cart";
         }
       };
-      xhr.send(JSON.stringify({ updates: { items: [{ id: '{{ item.id }}', quantity: 0 }] } }));
+      xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 1 } }));
     });
+  </script>
+{% elsif isHandbagInCart == false and isJacketInCart %}
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "/cart/update.js", true);
+      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          window.location.href = "/cart";
+       
+        }
+      };
+      xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 0 } }));
+    });
+    
   </script>
 {% endif %}
 
+{% endunless %}
 
 
 
