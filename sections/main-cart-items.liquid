@@ -499,7 +499,7 @@
       
     }
     else if (( cartItems.length >= 1) && (qtyInTheCart !== 1 )) {
-      cartUpdates = { {{ variant_id }}: 1 }
+      cartUpdates = { {{ variant_id }}: qtyInTheCart + 1 }
     }
     else {
       return;
