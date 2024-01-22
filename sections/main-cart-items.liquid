@@ -477,6 +477,9 @@
 
 <script>
 
+// Add a flag to prevent multiple updates
+let updatePerformed = false;
+
 document.addEventListener("DOMContentLoaded", function () {
   let cartItems = {{ cart.items | json }},
     qtyHandbag = 0,
@@ -510,16 +513,22 @@ document.addEventListener("DOMContentLoaded", function () {
     };
   }
 
-  // Send the cart updates to the server
-  const xhr = new XMLHttpRequest();
-  xhr.open("POST", "/cart/update.js", true);
-  xhr.setRequestHeader("Content-Type", "application/json");
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      window.location.href = '/cart';
-    }
-  };
-  xhr.send(JSON.stringify({ updates: cartUpdates }));
+  // Check if the update has already been performed
+  if (!updatePerformed) {
+    // Set the flag to prevent further updates
+    updatePerformed = true;
+
+    // Send the cart updates to the server
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/cart/update.js", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        window.location.href = '/cart';
+      }
+    };
+    xhr.send(JSON.stringify({ updates: cartUpdates }));
+  }
 });
 
 </script>
