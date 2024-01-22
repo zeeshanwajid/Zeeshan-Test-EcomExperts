@@ -488,7 +488,7 @@ document.addEventListener("DOMContentLoaded", function () {
           },
           body: JSON.stringify({ updates: { '{{ product_to_add_auto.variants.first.id }}': 1 } })
         }).then(function(response) {
-          if (response.ok && window.location.pathname !== "/cart")  {
+          if (response.ok)  {
             window.location.href = "/cart";
           }
         });
@@ -504,7 +504,7 @@ document.addEventListener("DOMContentLoaded", function () {
           },
           body: JSON.stringify({ updates: { '{{ product_to_add_auto.variants.first.id }}': 0 } })
         }).then(function(response) {
-          if (response.ok && window.location.pathname !== "/cart")  {
+          if (response.ok)  {
             window.location.href = "/cart";
           }
         });
