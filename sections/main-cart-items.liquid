@@ -462,52 +462,74 @@
 
 {% unless cart.item_count == 0 or winter_jacket_product.empty? or winter_jacket_product.variants.first.available == false %}
 
-  {% assign variant_id_handbag = 42447493201964 %}
-  {% assign variant_id_winter_jacket = winter_jacket_product.variants.first.id %}
+{% assign variant_id_handbag = 42447493201964 %}
+{% assign variant_id_winter_jacket = winter_jacket_product.variants.first.id %}
 
-  {% assign isHandbagInCart = false %}
-  {% assign isWinterJacketInCart = false %}
+{% assign isHandbagInCart = false %}
 
-  {% for item in cart.items %}
-    {% if item.product.handle == handbag_product.handle %}
-      {% assign isHandbagInCart = true %}
-    {% elsif item.product.id == variant_id_winter_jacket %}
-      {% assign isWinterJacketInCart = true %}
-    {% endif %}
-  {% endfor %}
-
-  {% if isHandbagInCart %}
-
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        let cartUpdates = {};
-
-        // Update the cart based on conditions
-        if (isWinterJacketInCart) {
-          // Handbag is in the cart, update quantity of Winter Jacket
-          cartUpdates = { {{ variant_id_winter_jacket }}: 1 };
-        } else {
-          // Handbag is in the cart, but Winter Jacket is not, add it
-          cartUpdates = { {{ variant_id_winter_jacket }}: 1 };
-        }
-
-        // Send the cart updates to the server
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "/cart/update.js", true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState === 4 && xhr.status === 200) {
-            window.location.href = '/cart';
-          }
-        };
-        xhr.send(JSON.stringify({ updates: cartUpdates }));
-      });
-    </script>
-
+{% for item in cart.items %}
+  {% if item.product.handle == handbag_product.handle %}
+    {% assign isHandbagInCart = true %}
   {% endif %}
+{% endfor %}
+
+{% if isHandbagInCart %}
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+  let cartItems = {{ cart.items | json }},
+    qtyHandbag = 0,
+    qtyWinterJacket = 0,
+    cartUpdates = {};
+
+  // Find quantity of Handbag in the cart
+  for (let i = 0; i < cartItems.length; i++) {
+    if (cartItems[i].id === {{ variant_id_handbag }}) {
+      qtyHandbag = cartItems[i].quantity;
+      break;
+    }
+  }
+
+// Find quantity of Winter Jacket in the cart
+let winterJacketItem = cartItems.find(item => item.id === {{ variant_id_winter_jacket }});
+if (winterJacketItem) {
+  qtyWinterJacket = winterJacketItem.quantity;
+}
+
+
+  // Update the cart based on conditions
+  if (qtyHandbag > 0) {
+    // Handbag is in the cart, update quantity of Winter Jacket
+    cartUpdates = { {{ variant_id_winter_jacket }}: qtyWinterJacket + 1 };
+  } else if (qtyWinterJacket > 0) {
+    // Handbag is not in the cart, but Winter Jacket is, remove both
+    cartUpdates = {
+      {{ variant_id_handbag }}: 0,
+      {{ variant_id_winter_jacket }}: 0
+    };
+  } else {
+    // Neither Handbag nor Winter Jacket is in the cart, do nothing
+    return;
+  }
+
+  // Send the cart updates to the server
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "/cart/update.js", true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      window.location.href = '/cart';
+    }
+  };
+  xhr.send(JSON.stringify({ updates: cartUpdates }));
+});
+
+</script>
+
+{% endif %}
 
 {% endunless %}
-
 
 
 
