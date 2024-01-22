@@ -128,6 +128,11 @@ class CartItems extends HTMLElement {
           this.updateLiveRegions(line, parsedState.errors);
           return;
         }
+if (quantity === '0' && variantId === '42447493201964') {
+         
+          window.location.reload();
+          return;
+        }
 
         this.classList.toggle('is-empty', parsedState.item_count === 0);
         const cartDrawerWrapper = document.querySelector('cart-drawer');
