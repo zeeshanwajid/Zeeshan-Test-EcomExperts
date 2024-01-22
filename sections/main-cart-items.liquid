@@ -493,9 +493,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Find quantity of Winter Jacket in the cart
 let winterJacketItem = cartItems.find(item => item.id === {{ variant_id_winter_jacket }});
+
 if (winterJacketItem) {
   qtyWinterJacket = winterJacketItem.quantity;
 }
+
 
 
   // Update the cart based on conditions
