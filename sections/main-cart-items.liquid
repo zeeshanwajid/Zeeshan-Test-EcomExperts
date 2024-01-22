@@ -465,7 +465,15 @@
 {% assign variant_id_handbag = 42447493201964 %}
 {% assign variant_id_winter_jacket = winter_jacket_product.variants.first.id %}
 
-{% if isHandbagInCart == true %}
+{% assign isHandbagInCart = false %}
+
+{% for item in cart.items %}
+  {% if item.product.handle == handbag_product.handle %}
+    {% assign isHandbagInCart = true %}
+  {% endif %}
+{% endfor %}
+
+{% if isHandbagInCart %}
 
 <script>
 
@@ -523,7 +531,6 @@ document.addEventListener("DOMContentLoaded", function () {
 {% endif %}
 
 {% endunless %}
-
 
 
 
