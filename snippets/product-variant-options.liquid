@@ -1,10 +1,11 @@
-{%- comment %}
+{% comment %}
   Renders product variant options
 
   Accepts:
   - product: {Object} product object.
   - option: {Object} current product_option object.
   - block: {Object} block object.
+
 
   Usage:
   {% render 'product-variant-options',
@@ -67,59 +68,20 @@
     </label> 
 {% endcomment %}
   <!-- New Swatch Variant Code -->
-    {% if option.name == 'Color' %}
-      {% if product.variants[forloop.index0].image != blank %}
-        <label
-          for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" id="colorsss"
-          style="background-image: url({{ product.variants[forloop.index0].image | img_url: '' }});"
-          class="swatch-image"
-        ></label>
-      {% else %}
-        <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
-          {{ value -}}
-          <span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>
-        </label>
-      {% endif %}
-    {% elsif option.name == 'Size' %}
-     
-<div class="product-form__input product-form__input--dropdown">
-        <label class="form__label-dropdown">Size</label>
-        <div class="select">
-          <select class="select__select" id="size" name="properties[Size]" form="{{ product_form_id }}" required>
-            <option value="" hidden selected>unselected</option>
-            <option value=" {{- value -}}"> {{- value -}}</option>
-          
-          </select>
-          <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
-            <path fill-rule="evenodd" clip-rule="evenodd" 
-                  d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" 
-                  fill="currentColor">
-            </path>
-          </svg>
-        </div>
-      </div>
-           <script>
-       document.addEventListener("DOMContentLoaded", ()=>{document.querySelector("form[novalidate]").removeAttribute("novalidate")})
-    document.addEventListener("DOMContentLoaded", function() {
-      var sizeSelect = document.getElementById('size');
-       var colorSelect = document.getElementById('colorsss');
-      var addToCartButton = document.querySelector('[type="submit"]'); 
-   
-      function updateButtonState() {
-        if (sizeSelect.value === "") {
-          addToCartButton.setAttribute('disabled', 'disabled');
-        } else {
-          addToCartButton.removeAttribute('disabled');
-        }
-      } 
-      sizeSelect.addEventListener('change', updateButtonState);
-      colorSelect.addEventListener('change', updateButtonState);
-      updateButtonState();
-    });
-  </script>
-      
-    {% endif %}
-  <!-- End New Swatch Variant Code -->
+
+        {% if product.variants[forloop.index0].image != blank and option.name == 'Color' %}
+              <label
+                for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" id="colorsss"
+                style="background-image: url({{ product.variants[forloop.index0].image | img_url: '' }});" class="swatch-image"
+              ></label>
+            {% else %}
+              <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
+                {{ value -}}
+                <span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>
+              </label>
+            {% endif %}
+    
+    <!-- End New Swatch Variant Code -->
   {%- elsif block.settings.picker_type == 'dropdown' -%}
     <option
       value="{{ value | escape }}"
