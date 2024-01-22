@@ -485,7 +485,7 @@
        var productIdToCheck = '7284700348460';
        var productExists = document.querySelector('[data-product-id="' + productIdToCheck + '"]');
        if (!productExists) {
-        location.reload();
+       window.location.reload();
       }
       const xhr = new XMLHttpRequest();
       xhr.open("POST", "/cart/update.js", true);
