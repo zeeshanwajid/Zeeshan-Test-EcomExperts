@@ -463,7 +463,7 @@
 {% unless cart.item_count == 0 or product_to_add_auto.empty? or product_to_add_auto.variants.first.available == false %}
 
 {% assign variant_id_auto_add = product_to_add_auto.variants.first.id %}
-{% assign variant_id_handbag = for_specific_product.variants.first.id %}
+{% assign variant_id_handbag = 42447493201964 %}
 
 {% if allProducts == "no" %}
 
