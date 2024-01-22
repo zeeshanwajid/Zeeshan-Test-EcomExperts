@@ -465,7 +465,7 @@
 
 {% unless cart.item_count == 0 or product_to_add_auto.empty? or product_to_add_auto.variants.first.available == false %}
 
-  {% assign variant_id = 42447493201964 %}
+  {% assign variant_id = product_to_add_auto.variants.first.id %}
 
   {% if allProducts == "no" %}
     {% assign isProduct = false %}
