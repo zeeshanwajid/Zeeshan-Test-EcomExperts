@@ -478,7 +478,9 @@
 
   {% if isProductHandbag == true %}
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
+    console.log("Script executed");
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("DOMContentLoaded event fired");
         fetch('/cart/update.js', {
           method: 'POST',
           headers: {
