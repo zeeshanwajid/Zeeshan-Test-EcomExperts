@@ -493,7 +493,7 @@
       let selectedSize = $('#size').val();
 
       // Check if black color with size medium is selected
-      if (selectedSize === 'medium') {
+      if (selectedSize == 'medium') {
         cartUpdates = { {{ variant_id_auto_add }}: 1 };
       } else {
         cartUpdates = { {{ variant_id_auto_add }}: 0 };
