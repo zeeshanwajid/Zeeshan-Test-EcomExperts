@@ -455,74 +455,65 @@
 
 
 
-{% assign allProducts = "no" %}
-
-{% assign handbag_product = all_products['handbag'] %}
-{% assign winter_jacket_product = all_products['dark-winter-jacket'] %}
-
-{% unless cart.item_count == 0 or winter_jacket_product.empty? or winter_jacket_product.variants.first.available == false %}
-
-{% assign variant_id_handbag = 42447493201964 %}
-{% assign variant_id_winter_jacket = winter_jacket_product.variants.first.id %}
-
-{% assign isHandbagInCart = false %}
-
-{% for item in cart.items %}
-  {% if item.product.handle == handbag_product.handle %}
-    {% assign isHandbagInCart = true %}
-  {% endif %}
-{% endfor %}
-
-{% if isHandbagInCart %}
-
 <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if(document.querySelector('.product-form__input')) {
+      var sizeSelect = document.getElementById('size');
+      var productId = document.getElementById('productId').value;
+      var productTitle = document.getElementById('productTitle').value;
 
-// Add a flag to prevent multiple updates
-let updatePerformed = false;
+      function updateCart() {
+        var selectedSize = sizeSelect.value;
+        // Logic to check if "Leather Bag (Black, Medium)" is selected
+        if (selectedSize === "medium") {
+          fetch('/cart/add.js', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              items: [
+                {
+                  id: productId,
+                  quantity: 1
+                }
+              ]
+            })
+          });
+          // Add the "Soft Winter Jacket" to the cart with an additional price of $0.01
+          fetch('/cart/add.js', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              items: [
+                {
+                  id: 'soft-winter-jacket-variant-id', // Replace with the actual variant ID
+                  quantity: 1
+                }
+              ]
+            })
+          });
+        } else {
+          // Logic to check if "Leather Bag (Black, Medium)" is deselected
+          // Remove the "Soft Winter Jacket" from the cart
+          fetch('/cart/clear.js', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              id: 'soft-winter-jacket-variant-id' // Replace with the actual variant ID
+            })
+          });
+        }
+      }
 
-document.addEventListener("DOMContentLoaded", function () {
-  let cartItems = {{ cart.items | json }},
-    cartUpdates = {};
-
-  // Find quantity of Handbag in the cart
-  const handbagItem = cartItems.find(item => item.id === {{ variant_id_handbag }});
-  const qtyHandbag = handbagItem ? handbagItem.quantity : 0;
-
-  // Check if the Winter Jacket is already in the cart
-  const winterJacketInCart = cartItems.some(item => item.id === {{ variant_id_winter_jacket }});
-
-  // Update the cart based on conditions
-  if (qtyHandbag > 0 && !winterJacketInCart) {
-    // Handbag is in the cart and Winter Jacket is not, add Winter Jacket
-    cartUpdates = { {{ variant_id_winter_jacket }}: 1 };
-  } else if (qtyHandbag === 0 && winterJacketInCart) {
-    // Handbag is not in the cart and Winter Jacket is, remove Winter Jacket
-    cartUpdates = { {{ variant_id_winter_jacket }}: 0 };
-  }
-
-  // Check if the update has already been performed
- // Check if the update has already been performed
-if (!updatePerformed) {
-  // Send the cart updates to the server
-  const xhr = new XMLHttpRequest();
-  xhr.open("POST", "/cart/update.js", true);
-  xhr.setRequestHeader("Content-Type", "application/json");
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      window.location.href = '/cart';
+      sizeSelect.addEventListener('change', updateCart);
     }
-    // Set the flag to prevent further updates
-    updatePerformed = true;
-  };
-  xhr.send(JSON.stringify({ updates: cartUpdates }));
-}
-});
-
+  });
 </script>
-
-{% endif %}
-
-{% endunless %}
 
 
 
