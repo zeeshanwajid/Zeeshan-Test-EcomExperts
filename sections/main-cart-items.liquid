@@ -457,6 +457,7 @@
 
 <!-- Start Auto Add to Cart "Jacket" -->
 
+
 <!-- Start Auto Add to Cart "Jacket" -->
 
 {% assign allProducts = "no" %}
@@ -481,34 +482,9 @@
   {% endif %}
 {% endfor %}
 
-{% if isHandbagInCart %}
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    let cartItems = {{ cart.items | json }};
-    let qtyHandbag = 0;
-    let qtyJacket = 0;
-    let cartUpdates = {};
-
-    for (let i = 0; i < cartItems.length; i++) {
-      if (cartItems[i].id === {{ variant_id_handbag }}) {
-        qtyHandbag = cartItems[i].quantity;
-      }
-      if (cartItems[i].id === {{ variant_id_auto_add }}) {
-        qtyJacket = cartItems[i].quantity;
-      }
-    }
-
-    if (qtyHandbag > 0 && !qtyJacket) {
-      cartUpdates = { {{ variant_id_auto_add }}: 1 };
-    } else if (!qtyHandbag && qtyJacket) {
-      cartUpdates = { {{ variant_id_auto_add }}: 0 };
-    } else if (!qtyHandbag && !qtyJacket) {
-      // If both products are not in the cart, no need for an update
-      return;
-    }
-
-    if (Object.keys(cartUpdates).length > 0) {
+{% if isHandbagInCart and isJacketInCart == false %}
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
       const xhr = new XMLHttpRequest();
       xhr.open("POST", "/cart/update.js", true);
       xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -517,11 +493,23 @@
           window.location.href = "/cart";
         }
       };
-      xhr.send(JSON.stringify({ updates: cartUpdates }));
-    }
-  });
-</script>
-
+      xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 1 } }));
+    });
+  </script>
+{% elsif isHandbagInCart == false and isJacketInCart %}
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "/cart/update.js", true);
+      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          window.location.href = "/cart";
+        }
+      };
+      xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 0 } }));
+    });
+  </script>
 {% endif %}
 
 {% endunless %}
