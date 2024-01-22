@@ -128,11 +128,7 @@ class CartItems extends HTMLElement {
           this.updateLiveRegions(line, parsedState.errors);
           return;
         }
-if (quantity === '0' && variantId === '42447493201964') {
-         
-          window.location.reload();
-          return;
-        }
+
 
         this.classList.toggle('is-empty', parsedState.item_count === 0);
         const cartDrawerWrapper = document.querySelector('cart-drawer');
@@ -171,7 +167,11 @@ if (quantity === '0' && variantId === '42447493201964') {
         } else if (document.querySelector('.cart-item') && cartDrawerWrapper) {
           trapFocus(cartDrawerWrapper, document.querySelector('.cart-item__name'));
         }
-
+if (quantity === '0' && variantId === '42447493201964') {
+         
+          window.location.reload();
+          return;
+        }
         publish(PUB_SUB_EVENTS.cartUpdate, { source: 'cart-items', cartData: parsedState, variantId: variantId });
       })
       .catch(() => {
