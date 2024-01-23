@@ -482,36 +482,53 @@
 {% if isHandbagInCart and isJacketInCart == false %}
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-       
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", "/cart/update.js", true);
-      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          window.location.href = "/cart";
+      // Get the size element
+      var sizeElement = document.getElementById("size");
+
+      // Add a change event listener to the size dropdown
+      sizeElement.addEventListener("change", function() {
+        // Check if the selected value is "medium"
+        if (sizeElement.value === "medium") {
+          // If the selected size is medium, add the product to the cart
+          const xhr = new XMLHttpRequest();
+          xhr.open("POST", "/cart/update.js", true);
+          xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+              window.location.href = "/cart";
+            }
+          };
+          xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 1 } }));
         }
-      };
-      xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 1 } }));
+      });
     });
   </script>
 {% elsif isHandbagInCart == false and isJacketInCart %}
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", "/cart/update.js", true);
-      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          window.location.href = "/cart";
-              
+      // Get the size element
+      var sizeElement = document.getElementById("size");
+
+      // Add a change event listener to the size dropdown
+      sizeElement.addEventListener("change", function() {
+        // Check if the selected value is "medium"
+        if (sizeElement.value === "medium") {
+          // If the selected size is medium, add the product to the cart
+          const xhr = new XMLHttpRequest();
+          xhr.open("POST", "/cart/update.js", true);
+          xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+              window.location.href = "/cart";
+            }
+          };
+          xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 0 } }));
         }
-      };
-      xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 0 } }));
+      });
     });
-  
   </script>
 {% endif %}
+
 
 {% endunless %}
 
