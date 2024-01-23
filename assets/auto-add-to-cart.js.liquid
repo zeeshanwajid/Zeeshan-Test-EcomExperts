@@ -23,7 +23,7 @@
           {% endfor %}
           
             {% if isHandbagInCart and isJacketInCart == false %}
-        
+              <script>
                 document.addEventListener("DOMContentLoaded", function () {
                
                   const xhr = new XMLHttpRequest();
@@ -36,9 +36,9 @@
                   };
                   xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 1 } }));
                 });
-              
+              </script>
             {% elsif isHandbagInCart == false and isJacketInCart %}
-          
+              <script>
                 document.addEventListener("DOMContentLoaded", function () {
                   const xhr = new XMLHttpRequest();
                   xhr.open("POST", "/cart/update.js", true);
@@ -50,7 +50,7 @@
                   };
                   xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 0 } }));
                 });
-          
+              </script>
             {% endif %}
           
           {% endunless %}
