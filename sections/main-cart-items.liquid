@@ -480,7 +480,6 @@
   {% endfor %}
 
   {% if isHandbagInCart and isJacketInCart == false %}
-     {% if selectedSize == "medium" %}
     <script>
       document.addEventListener("DOMContentLoaded", function () {
      
@@ -495,7 +494,6 @@
         xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 1 } }));
       });
     </script>
-{% endif %}
   {% elsif isHandbagInCart == false and isJacketInCart %}
     <script>
       document.addEventListener("DOMContentLoaded", function () {
