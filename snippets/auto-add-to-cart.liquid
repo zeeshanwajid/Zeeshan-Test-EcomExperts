@@ -44,6 +44,10 @@
             {% elsif isHandbagInCart == false and isJacketInCart %}
               <script>
                 document.addEventListener("DOMContentLoaded", function () {
+                            var dropdown = document.getElementById('size-unique');
+      var selectedValue = dropdown.value;
+
+      if (selectedValue === 'medium'){
                   const xhr = new XMLHttpRequest();
                   xhr.open("POST", "/cart/update.js", true);
                   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -53,7 +57,8 @@
                     }
                   };
                   xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 0 } }));
-                });
+      }         
+      });
               </script>
             {% endif %}
           
