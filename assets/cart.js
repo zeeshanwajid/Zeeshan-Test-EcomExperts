@@ -3,7 +3,7 @@ document.getElementById('Remove-2').addEventListener('click', function() {
   setTimeout(function() {
    
     window.location.reload();
-  }, 2000); 
+  }, 1000); 
 });
 
 class CartRemoveButton extends HTMLElement {
