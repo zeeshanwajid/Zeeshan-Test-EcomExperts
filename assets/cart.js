@@ -1,3 +1,7 @@
+document.getElementById('Remove-2').addEventListener('click', function() {
+  window.location.reload();
+});
+
 class CartRemoveButton extends HTMLElement {
   constructor() {
     super();
