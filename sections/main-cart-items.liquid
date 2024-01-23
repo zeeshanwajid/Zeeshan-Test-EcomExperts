@@ -483,16 +483,7 @@
      {% if selectedSize == "medium" %}
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-     const sizeDropdown = document.getElementById("size-unique");
-    const variantIdAutoAdd = {{ variant_id_auto_add | default: 0 }};
-    let selectedSize = '';
-
-    sizeDropdown.addEventListener("change", function () {
-      selectedSize = sizeDropdown.value;
-      updateCart();
-    });
-
-    function updateCart() {
+     
         const xhr = new XMLHttpRequest();
         xhr.open("POST", "/cart/update.js", true);
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -502,8 +493,7 @@
           }
         };
         xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 1 } }));
-    }  
-    });
+      });
     </script>
 {% endif %}
   {% elsif isHandbagInCart == false and isJacketInCart %}
