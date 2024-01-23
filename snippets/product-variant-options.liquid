@@ -60,29 +60,32 @@
       {% endif %}
     >
 
-    <!-- // Old Variant Code -->
-    {% comment %}
-    <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
+      <!-- // Old Variant Code -->
+      {% comment %}
+      <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
       {{ value -}}
       <span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>
-    </label> 
-{% endcomment %}
+      </label> 
+      {% endcomment %}
+ 
+    
   <!-- New Swatch Variant Code -->
-
+    
         {% if product.variants[forloop.index0].image != blank and option.name == 'Color' %}
-              <label
-                for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" id="colorsss"
-                style="background-image: url({{ product.variants[forloop.index0].image | img_url: '' }});" class="swatch-image"
-              ></label>
-            {% else %}
-              <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
-                {{ value -}}
-                <span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>
-              </label>
-            {% endif %}
+        <label
+          for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" id="colorsss" style="background-image: url({{ product.variants[forloop.index0].image | img_url: '' }});" class="swatch-image">
+        </label>
+        {% else %}
+        <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
+         {{ value -}}
+        <span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>
+        </label>
+         {% endif %}
     
     <!-- End New Swatch Variant Code -->
-  {%- elsif block.settings.picker_type == 'dropdown' -%}
+ 
+  
+{%- elsif block.settings.picker_type == 'dropdown' -%}
     <option
       value="{{ value | escape }}"
       {% if option.selected_value == value %}
