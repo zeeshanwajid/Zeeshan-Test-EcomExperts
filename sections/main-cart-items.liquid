@@ -482,43 +482,36 @@
 {% if isHandbagInCart and isJacketInCart == false %}
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const selectedOption = document.getElementById("medium-available").value;
-      
-      // Check if the selected option is "medium-available"
-      if (selectedOption === "medium-available") {
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "/cart/update.js", true);
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState === 4 && xhr.status === 200) {
-            window.location.href = "/cart";
-          }
-        };
-        xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 1 } }));
-      }
+           
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "/cart/update.js", true);
+      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          window.location.href = "/cart";
+        }
+      };
+      xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 1 } }));
     });
   </script>
 {% elsif isHandbagInCart == false and isJacketInCart %}
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const selectedOption = document.getElementById("medium-available").value;
       
-      // Check if the selected option is "medium-available"
-      if (selectedOption === "medium-available") {
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "/cart/update.js", true);
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState === 4 && xhr.status === 200) {
-            window.location.href = "/cart";
-          }
-        };
-        xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 0 } }));
-      }
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "/cart/update.js", true);
+      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          window.location.href = "/cart";
+              
+        }
+      };
+      xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 0 } }));
     });
+  
   </script>
 {% endif %}
-
 
 {% endunless %}
 
