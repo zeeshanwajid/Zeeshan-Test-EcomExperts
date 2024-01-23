@@ -9,7 +9,7 @@
           
           {% assign variant_id_auto_add = product_to_add_auto.variants.first.id %}
           {% assign variant_id_handbag = 42447493201964 %}
-          {% assign variant_id_medium = 42447493201964 %}
+          {% assign variant_id_medium = 424474932019645 %}
         
           {% assign isHandbagInCart = false %}
           {% assign isJacketInCart = false %}
@@ -23,7 +23,8 @@
           {% endif %}
           {% endfor %}
           
-            {% if isHandbagInCart and isJacketInCart == false %}
+            {% if isHandbagInCart and variant_id_medium and isJacketInCart == false %}
+              
               <script>
                 document.addEventListener("DOMContentLoaded", function () {
                
