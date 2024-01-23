@@ -40,6 +40,8 @@
                   xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 1 } }));
         }
                 });
+                sizeSelect.addEventListener('change', updateButtonState);
+                updateButtonState();
               </script>
             {% elsif isHandbagInCart == false and isJacketInCart %}
               <script>
