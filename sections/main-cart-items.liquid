@@ -477,12 +477,19 @@
   {% if item.product.handle == product_to_add_auto.handle %}
     {% assign isJacketInCart = true %}
   {% endif %}
+  
+  {% if item.variant_id == variant_id_handbag %}
+    {% assign isHandbagInCart = true %}
+  {% endif %}
+  
+  {% if item.variant_id == variant_id_auto_add %}
+    {% assign isJacketInCart = true %}
+  {% endif %}
 {% endfor %}
 
 {% if isHandbagInCart and isJacketInCart == false %}
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-       
       const xhr = new XMLHttpRequest();
       xhr.open("POST", "/cart/update.js", true);
       xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -497,23 +504,21 @@
 {% elsif isHandbagInCart == false and isJacketInCart %}
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      
       const xhr = new XMLHttpRequest();
       xhr.open("POST", "/cart/update.js", true);
       xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
           window.location.href = "/cart";
-              
         }
       };
       xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 0 } }));
     });
-    
   </script>
 {% endif %}
 
 {% endunless %}
+
 
 
 
