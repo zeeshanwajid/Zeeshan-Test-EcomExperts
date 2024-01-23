@@ -46,6 +46,10 @@
             {% elsif isHandbagInCart == false and isJacketInCart %}
               <script>
                 document.addEventListener("DOMContentLoaded", function () {
+                       var sizeSelect = document.getElementById('size-unique');
+               var addToCartButton = document.querySelector('[type="submit"]'); 
+                   function updateButtonState() {
+        if (sizeSelect.value === "medium") {
                   const xhr = new XMLHttpRequest();
                   xhr.open("POST", "/cart/update.js", true);
                   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -55,7 +59,9 @@
                     }
                   };
                   xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 0 } }));
-                });
+        }       
+        });sizeSelect.addEventListener('change', updateButtonState);
+                updateButtonState();
               </script>
             {% endif %}
           
