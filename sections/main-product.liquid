@@ -128,7 +128,7 @@
               <div class="product-form__input product-form__input--dropdown">
               <label class="form__label-dropdown">Size</label>
               <div class="select">
-              <select class="select__select" id="size-unique" name="properties[Size]" form="{{ 'product-form-' | append: section.id }}" required>
+              <select class="select__select" id="size" name="properties[Size]" form="{{ 'product-form-' | append: section.id }}" required>
                   <option value="" hidden selected>unselected</option>
                       <option value="small">small</option>
                       <option value="medium" > medium</option>
@@ -144,7 +144,7 @@
            <script>
        document.addEventListener("DOMContentLoaded", ()=>{document.querySelector("form[novalidate]").removeAttribute("novalidate")})
     document.addEventListener("DOMContentLoaded", function() {
-      var sizeSelect = document.getElementById('size-unique');
+      var sizeSelect = document.getElementById('size');
        var colorSelect = document.getElementById('colorsss');
       var addToCartButton = document.querySelector('[type="submit"]'); 
    
