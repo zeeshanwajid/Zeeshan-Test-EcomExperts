@@ -482,8 +482,10 @@
 {% if isHandbagInCart and isJacketInCart == false %}
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-        var sizeElement = document.getElementById("size-unique");
-      
+        var sizeElements = document.getElementById("size-unique");
+     sizeElements.addEventListener("change", function() {
+        if (sizeElement.value === "medium") {
+          
       const xhr = new XMLHttpRequest();
       xhr.open("POST", "/cart/update.js", true);
       xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -493,6 +495,8 @@
         }
       };
       xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 1 } }));
+     }
+      });
     });
   </script>
 {% elsif isHandbagInCart == false and isJacketInCart %}
