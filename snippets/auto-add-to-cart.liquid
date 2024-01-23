@@ -15,16 +15,14 @@
         
           {% for item in cart.items %}
           {% if item.product.handle == for_specific_product.handle and item.variant_id == variant_id_handbag %}
-          {% if item.product.handle == for_specific_product.handle and item.options_with_values == variant_id_medium %}
           {% assign isHandbagInCart = true %}
-          {% endif %}  
           {% endif %}
           {% if item.product.handle == product_to_add_auto.handle and item.variant_id == variant_id_auto_add %}
           {% assign isJacketInCart = true %}
           {% endif %}
           {% endfor %}
           
-            {% if variant_id_medium and isHandbagInCart and isJacketInCart == false %}
+            {% if isHandbagInCart and isJacketInCart == false %}
               <script>
                 document.addEventListener("DOMContentLoaded", function () {
                
