@@ -1,60 +1,57 @@
 <!-- Start Auto Add to Cart "Jacket" -->
           
-         {% assign allProducts = "no" %}
-{% assign for_specific_product = all_products['handbag'] %}
-{% assign product_to_add_auto = all_products['dark-winter-jacket'] %}
-
-{% unless cart.item_count == 0 or product_to_add_auto.empty? or product_to_add_auto.variants.first.available == false %}
-
-  {% assign variant_id_auto_add = product_to_add_auto.variants.first.id %}
-  {% assign variant_id_handbag = 42447493201964 %}
-  {% assign variant_id_medium = 424474932019645 %}
-
-  {% assign isHandbagInCart = false %}
-  {% assign isJacketInCart = false %}
-
-  {% for item in cart.items %}
-    {% if item.product.handle == for_specific_product.handle and item.variant_id == variant_id_handbag %}
-      {% assign isHandbagInCart = true %}
-    {% endif %}
-    {% if item.product.handle == product_to_add_auto.handle and item.variant_id == variant_id_auto_add %}
-      {% assign isJacketInCart = true %}
-    {% endif %}
-  {% endfor %}
+          {% assign allProducts = "no" %}
           
-              <script>
-               document.addEventListener("DOMContentLoaded", function () {
-      var dropdown = document.getElementById('size-unique');
-      var selectedValue = dropdown.value;
-      var selectedVariantId = dropdown.options[dropdown.selectedIndex].getAttribute('data-variant-id');
-
-      // Check if the selected value matches variant_id_medium
-      if (selectedValue === 'medium' && selectedVariantId === '{{ variant_id_medium }}' && isHandbagInCart && !isJacketInCart) {
-        // Run your script for this condition
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "/cart/update.js", true);
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState === 4 && xhr.status === 200) {
-            window.location.href = "/cart";
-          }
-        };
-        xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 1 } }));
-      } else if (selectedValue !== 'medium' && isHandbagInCart && isJacketInCart) {
-        // Run your script for the other condition
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "/cart/update.js", true);
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState === 4 && xhr.status === 200) {
-            window.location.href = "/cart";
-          }
-        };
-        xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 0 } }));
-      }
-    });
-              </script>
+          {% assign for_specific_product = all_products['handbag'] %}
+          {% assign product_to_add_auto = all_products['dark-winter-jacket'] %}
+          
+          {% unless cart.item_count == 0 or product_to_add_auto.empty? or product_to_add_auto.variants.first.available == false %}
+          
+          {% assign variant_id_auto_add = product_to_add_auto.variants.first.id %}
+          {% assign variant_id_handbag = 42447493201964 %}
         
+          {% assign isHandbagInCart = false %}
+          {% assign isJacketInCart = false %}
+        
+          {% for item in cart.items %}
+          {% if item.product.handle == for_specific_product.handle and item.variant_id == variant_id_handbag %}
+          {% assign isHandbagInCart = true %}
+          {% endif %}
+          {% if item.product.handle == product_to_add_auto.handle and item.variant_id == variant_id_auto_add %}
+          {% assign isJacketInCart = true %}
+          {% endif %}
+          {% endfor %}
+          
+            {% if isHandbagInCart and isJacketInCart == false %}
+              <script>
+                document.addEventListener("DOMContentLoaded", function () {
+               
+                  const xhr = new XMLHttpRequest();
+                  xhr.open("POST", "/cart/update.js", true);
+                  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                  xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                      window.location.href = "/cart";
+                    }
+                  };
+                  xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 1 } }));
+                });
+              </script>
+            {% elsif isHandbagInCart == false and isJacketInCart %}
+              <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                  const xhr = new XMLHttpRequest();
+                  xhr.open("POST", "/cart/update.js", true);
+                  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                  xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                      window.location.href = "/cart";
+                    }
+                  };
+                  xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 0 } }));
+                });
+              </script>
+            {% endif %}
           
           {% endunless %}
                               
