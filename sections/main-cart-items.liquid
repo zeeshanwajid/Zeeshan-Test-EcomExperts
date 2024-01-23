@@ -482,9 +482,7 @@
   {% if isHandbagInCart and isJacketInCart == false %}
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-
-
-        
+     
         const xhr = new XMLHttpRequest();
         xhr.open("POST", "/cart/update.js", true);
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -514,13 +512,10 @@
 
 {% endunless %}
 
-
-
-
-
-
-<!-- End Auto Add to Cart "Jacket" -->
                               
+<!-- End Auto Add to Cart "Jacket" -->
+
+
 {% schema %}
 {
   "name": "t:sections.main-cart-items.name",
