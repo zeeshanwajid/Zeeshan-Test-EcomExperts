@@ -510,20 +510,6 @@ const sizeDropdown = document.getElementById("size-unique");
   {% elsif isHandbagInCart == false and isJacketInCart %}
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-
-
-const sizeDropdown = document.getElementById("size-unique");
-    const variantIdAutoAdd = {{ variant_id_auto_add | default: 0 }};
-    const addToCartButton = document.querySelector('[type="submit"]'); // Adjust the selector based on your theme
-
-    sizeDropdown.addEventListener("change", function () {
-      const selectedSize = sizeDropdown.value;
-
-      // Check if the selected size is "medium"
-      if (selectedSize === "medium") {
-
-
-        
         const xhr = new XMLHttpRequest();
         xhr.open("POST", "/cart/update.js", true);
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -533,9 +519,7 @@ const sizeDropdown = document.getElementById("size-unique");
           }
         };
         xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 0 } }));
-          }
-    });
-  });
+      });
     </script>
   {% endif %}
 
