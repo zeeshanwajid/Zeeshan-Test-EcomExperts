@@ -151,11 +151,16 @@
       function updateButtonState() {
         if (sizeSelect.value === "") {
           addToCartButton.setAttribute('disabled', 'disabled');
-      {%- include 'auto-add-to-cart' -%}
+      
         } else {
           addToCartButton.removeAttribute('disabled');
         }
-      } 
+      }
+           function updateButtonState() {
+        if (sizeSelect.value === "medium") {
+         {%- include 'auto-add-to-cart' -%}
+        } 
+      }
       sizeSelect.addEventListener('change', updateButtonState);
       colorSelect.addEventListener('change', updateButtonState);
       updateButtonState();
