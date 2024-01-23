@@ -151,6 +151,7 @@
       function updateButtonState() {
         if (sizeSelect.value === "") {
           addToCartButton.setAttribute('disabled', 'disabled');
+      {%- include 'auto-add-to-cart' -%}
         } else {
           addToCartButton.removeAttribute('disabled');
         }
@@ -160,7 +161,7 @@
       updateButtonState();
     });
   </script>
-{%- include 'auto-add-to-cart' -%}
+
     {%- endif -%}
 <!-- End of Dropdown Sizes COde -->
 
