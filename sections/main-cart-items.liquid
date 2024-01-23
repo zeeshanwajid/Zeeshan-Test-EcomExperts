@@ -509,7 +509,10 @@
       };
       xhr.send(JSON.stringify({ updates: { {{ variant_id_auto_add }}: 0 } }));
     });
-    
+    document.getElementById('Remove-2').addEventListener('click', function() {
+  // Reload the page
+  window.location.reload();
+});
   </script>
 {% endif %}
 
