@@ -482,7 +482,7 @@
 {% if isHandbagInCart and isJacketInCart == false %}
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const selectedOption = document.getElementById("size-unique").value;
+      const selectedOption = document.getElementById("size-unique");
       
       // Check if the selected option is "medium-available"
       if (selectedOption === "medium-available") {
@@ -501,7 +501,7 @@
 {% elsif isHandbagInCart == false and isJacketInCart %}
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const selectedOption = document.getElementById("size-unique").value;
+      const selectedOption = document.getElementById("size-unique");
       
       // Check if the selected option is "medium-available"
       if (selectedOption === "medium-available") {
